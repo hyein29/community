@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>[[${content.b_title}]]</title>
+
+	<!-- css -->
+    <link rel="stylesheet" href="/css/board/content.css">
+
+</head>
+<body>
+	<h1>view content</h1>
+		
+	<a href="#">[[${content.category.c_name}]]</a> > <a href="#">[[${content.b_divide}]]</a> <br>
+	
+	제목 : [[${content.b_title}]] <br>
+	작성자 : [[${content.b_writer}]] <br>
+	작성일 : [[${content.b_regdate}]] <br>
+	조회수 : [[${content.b_viewcnt}]] <br>
+	
+	<div class="content_ared">
+		<!-- 이미지 및 파일 바꿔주기위한 과정 -->
+		<input type="hidden" name="content1" id="content1" th:value="${content.b_content}">
+		<div id="content2"></div>
+	</div>
+	
+	<a href="#">수정</a>
+	<a href="#">삭제</a>
+	<a href="#">뒤로가기</a>
+	
+	
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</body>
+
+
+<script>
+
+    $(function(){
+        var content1 = $("#content1").val();
+        $("#content2").html(content1);
+
+    })
+
+</script>
+	
+</html>

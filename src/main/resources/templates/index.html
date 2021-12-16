@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Index</title>
 </head>
 <body>
-<h2>home</h2>
+
+	<h2>home</h2>
+	
+	<a th:href="@{/board/list}">게시판</a>
+
+
 </body>
 </html>
