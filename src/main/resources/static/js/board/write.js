@@ -80,7 +80,7 @@ function saveContent() {
         success : function(data) {
 			alert("ajax 성공");
 			console.log(data);
-			location.href = "/board/list";
+			location.href = "/board";
 		},
 		error : function(request, status, error){
 			alert("ajax 실패");

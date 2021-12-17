@@ -10,12 +10,18 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
 
@@ -27,7 +33,6 @@ import co.kr.community.service.BoardService;
 import co.kr.community.service.CategoryService;
 
 @Controller
-@RequestMapping("/board")
 public class BoardController {
 
 	@Autowired
@@ -37,19 +42,21 @@ public class BoardController {
 	BoardService boardService;
 
 	// 게시판 조회
-	@GetMapping("/list")
-	public String list(Model model) {
+	@RequestMapping(value = "/board", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView mv = new ModelAndView("board/list");
 		List<Board> boards = boardService.getBoardList();
-		model.addAttribute("boards", boards);
-		return "board/list";
+		mv.addObject("boards", boards);
+		return mv;
 	}
 
 	// 게시물 작성 페이지
-	@GetMapping("/write")
-	public String write(Model model) {
+	@RequestMapping(value = "/board/write", method = RequestMethod.GET)
+	public ModelAndView writePage() {
+		ModelAndView mv = new ModelAndView("board/write");
 		List<Category> categories = categoryService.getCategoryList();
-		model.addAttribute("categories", categories);
-		return "board/write";
+		mv.addObject("categories", categories);
+		return mv;
 	}
 	
 	// 썸머 노트 file 컨트롤러
@@ -83,7 +90,7 @@ public class BoardController {
 	}
 
 	// 게시물 작성
-	@PostMapping("/write")
+	@RequestMapping(value = "/board/write", method = RequestMethod.POST)
 	@ResponseBody
 	public String write(Board board) {
 		boardService.insert(board);
@@ -91,11 +98,32 @@ public class BoardController {
 		return test;
 	}
 	
-	@GetMapping("/content")
-	public String content(@RequestParam("b_no") Long b_no, Model model) {
+	// 게시물 조회
+	@RequestMapping(value = "/board/{b_no}", method = RequestMethod.GET)
+	public ModelAndView content(@PathVariable("b_no") Long b_no) {
+		ModelAndView mv = new ModelAndView("board/content");
 		Optional<Board> content = boardService.getBoardContent(b_no);
-		model.addAttribute("content", content.get()); // Optional에서 값을 빼오려면 get()을 써줘야 함
-		return "board/content";
+		mv.addObject("content", content.get()); // Optional에서 값을 빼오려면 get()을 써줘야 함
+		return mv;
+	}
+	
+	// 게시물 수정 페이지
+	@RequestMapping(value = "/board/modify/{b_no}", method = RequestMethod.GET)
+	public ModelAndView modify(@PathVariable("b_no") Long b_no) {
+		ModelAndView mv = new ModelAndView("board/modify");
+		Optional<Board> content = boardService.getBoardContent(b_no);
+		mv.addObject("content", content.get());
+		return mv;
+	}
+	
+	// 게시물 수정
+	@RequestMapping(value = "/board/modify", method = RequestMethod.PUT)
+	@ResponseBody
+	public String modify(@RequestBody Board board, RedirectAttributes redirectAttributes) {
+		System.out.println("board ======================> " + board);
+		boardService.update(board);
+		redirectAttributes.addAttribute("b_no", board.getB_no());
+		return "redirect:/board/{b_no}";
 	}
 
 

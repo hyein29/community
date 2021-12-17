@@ -29,6 +29,11 @@ public class BoardServiceImpl implements BoardService {
 	public Optional<Board> getBoardContent(Long b_no) {
 		return boardRepository.findById(b_no);
 	}
+
+	@Override
+	public Board update(Board board) {
+		return boardRepository.save(board);
+	}
 	
 	
 

@@ -22,14 +22,14 @@
 			<td th:text="${board.b_no}"></td>
 			<td th:text="${board.category.c_name}"></td>
 			<td th:text="${board.b_divide}"></td>
-			<td><a th:href="@{/board/content?b_no=}+${board.b_no}" th:text="${board.b_title}"></a></td>
+			<td><a href="/board/" th:attrappend="href=${board.b_no}" th:text="${board.b_title}"></a></td>
 			<td th:text="${board.b_writer}"></td>
 			<td th:text="${board.b_regdate}"></td>
 			<td th:text="${board.b_viewcnt}"></td>
 		</tr>
 	</table>
 	
-	<a th:href="@{/board/write}">글쓰기</a>
+	<a href="/board/write">글쓰기</a>
 	
 </body>
 </html>

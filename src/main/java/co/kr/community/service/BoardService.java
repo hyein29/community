@@ -10,5 +10,6 @@ public interface BoardService {
 	Board insert(Board board);
 	List<Board> getBoardList();
 	Optional<Board> getBoardContent(Long b_no);
+	Board update(Board board);
 	
 }
