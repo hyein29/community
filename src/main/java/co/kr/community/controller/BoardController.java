@@ -14,11 +14,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -117,13 +119,20 @@ public class BoardController {
 	}
 	
 	// 게시물 수정
-	@RequestMapping(value = "/board/modify", method = RequestMethod.PUT)
-	@ResponseBody
-	public String modify(@RequestBody Board board, RedirectAttributes redirectAttributes) {
+//	@PostMapping(value = "/board/modify")
+//	@ResponseBody
+//	public String modify(@RequestBody Board board, RedirectAttributes redirectAttributes) {
+//		System.out.println("board ======================> " + board);
+//		boardService.update(board);
+//		redirectAttributes.addAttribute("b_no", board.getB_no());
+//		return "redirect:/board/{b_no}";
+//	}
+	
+	@PostMapping(value = "/board/modify")
+	public String modify(Board board) {
 		System.out.println("board ======================> " + board);
 		boardService.update(board);
-		redirectAttributes.addAttribute("b_no", board.getB_no());
-		return "redirect:/board/{b_no}";
+		return "redirect:/board";
 	}
 
 

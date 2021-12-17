@@ -76,8 +76,8 @@ function saveContent() {
 
 	$.ajax({
 		url:'/board/modify',
-        type : 'PUT',
-        data : boardObject,
+        type : 'post',
+        data : board,
         success : function(data) {
 			alert("ajax 성공");
 			console.log(data);
