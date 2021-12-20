@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import co.kr.community.entity.Board;
@@ -24,16 +29,35 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> getBoardList() {
 		return boardRepository.findAll();
 	}
+	
+	@Override
+	public Page<Board> getBoardList(Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 10, Sort.by("bNo").descending());
+		return boardRepository.findAll(pageable);
+	}
+	
+	@Override
+	public void updateViewCnt(Long bNo) {
+		boardRepository.updateViewCnt(bNo);		
+	}	
 
 	@Override
-	public Optional<Board> getBoardContent(Long b_no) {
-		return boardRepository.findById(b_no);
+	public Optional<Board> getBoardContent(Long bNo) {
+		return boardRepository.findById(bNo);
 	}
 
 	@Override
 	public Board update(Board board) {
 		return boardRepository.save(board);
 	}
+
+	@Override
+	public void delete(Long bNo) {
+		boardRepository.deleteById(bNo);
+	}
+
+	
 	
 	
 

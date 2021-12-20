@@ -39,17 +39,17 @@
 	
 	
 	
-	<select name="category.c_no" class="board_input">
-		<option th:each="cate:${categories}" th:value="${cate.c_no}" th:text="${cate.c_name}">카테고리</option>
+	<select name="category.cNo" class="board_input">
+		<option th:each="cate:${categories}" th:value="${cate.cNo}" th:text="${cate.cName}">카테고리</option>
 	</select>
-	<select name="b_divide" class="board_input">
+	<select name="bDivide" class="board_input">
 		<option value="">--------------</option>
 		<option>자랑합니다</option>
 		<option>궁금해요</option>
 	</select><br>
-	<input type="text" name="b_title" placeholder="제목" class="board_input"><br>
-	<input type="text" name="b_writer" placeholder="작성자" class="board_input"><br>
-	<div id="summernote" name="b_content"></div>
+	<input type="text" name="bTitle" placeholder="제목" class="board_input"><br>
+	<input type="text" name="bWriter" placeholder="작성자" class="board_input"><br>
+	<div id="summernote" name="bContent"></div>
 	
 	<button type="submit" id="save_btn">작성하기</button>
 	<button onclick="location.href='/board'">취소</button>

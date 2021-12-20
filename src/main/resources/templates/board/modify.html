@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>글쓰기</title>
+<title>수정하기</title>
 
 	<!-- include libraries(jQuery, bootstrap) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -23,25 +23,27 @@
 	
 <!-- 	form 태그 사용할 경우
 	<input type="hidden" name="_method" value="put" class="board_input"> -->
-	<input type="text" name="b_no" class="board_input" th:value="${content.b_no}"><br>
-	<input type="text" name="category.c_no" class="board_input" th:value="${content.category.c_no}"><br>
-	<input type="text" name="b_writer" class="board_input" th:value="${content.b_writer}"><br>
+	<input type="text" name="bNo" class="board_input" th:value="${content.bNo}"><br>
+	<input type="text" name="category.cNo" class="board_input" th:value="${content.category.cNo}"><br>
+	<input type="text" name="bWriter" class="board_input" th:value="${content.bWriter}"><br>
 	
-	<select name="b_divide" class="board_input">
+	<select name="bDivide" class="board_input">
 		<option value="">--------------</option>
-		<option th:selected="${content.b_divide}=='자랑합니다'">자랑합니다</option>
-		<option th:selected="${content.b_divide}=='궁금해요'">궁금해요</option>
+		<option th:selected="${content.bDivide}=='자랑합니다'">자랑합니다</option>
+		<option th:selected="${content.bDivide}=='궁금해요'">궁금해요</option>
 	</select>
-	<input type="text" name="b_title" placeholder="제목" class="board_input" th:value="${content.b_title}"><br>
-	<b>작성자 </b> [[${content.b_writer}]] <br>
+	<input type="text" name="bTitle" placeholder="제목" class="board_input" th:value="${content.bTitle}"><br>
+	<b>작성자 </b> [[${content.bWriter}]] <br>
 	
 	<div class="content_ared">
-		<input type="hidden" name="content" id="content" th:value="${content.b_content}">
-		<div id="summernote" name="b_content"></div>
+		<input type="hidden" name="content" id="content" th:value="${content.bContent}">
+		<div id="summernote" name="bContent"></div>
 	</div>
 	
+	<input type="hidden" name="_method" class="board_input" value="put">
+	 
 	<button type="submit" id="save_btn">작성하기</button>
-	<button onclick="location.href='/board'">취소</button>
+	<button type="button" onclick="location.href='/board'">취소</button>
 	
 <script src="/js/board/modify.js"></script>
 	

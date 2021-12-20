@@ -72,16 +72,18 @@ function saveContent() {
 	// 값 가져오기
 	var summernoteContent = $('#summernote').summernote('code');        //썸머노트(설명)
 	console.log("summernoteContent : " + summernoteContent);
-	board['b_content'] = summernoteContent;
+	board['bContent'] = summernoteContent;
+
+	console.log(board);
 
 	$.ajax({
-		url:'/board/modify',
-        type : 'post',
+		url: '/board/'+ board['bNo'],
+        type : 'POST',
         data : board,
         success : function(data) {
 			alert("ajax 성공");
 			console.log(data);
-			location.href = "/board";
+			location.href = "/board/" + board['bNo'];
 		},
 		error : function(request, status, error){
 			alert("ajax 실패");

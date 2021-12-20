@@ -18,16 +18,57 @@
 			<td>조회</td>
 		</tr>
 		
-		<tr th:each="board:${boards}">
-			<td th:text="${board.b_no}"></td>
-			<td th:text="${board.category.c_name}"></td>
-			<td th:text="${board.b_divide}"></td>
-			<td><a href="/board/" th:attrappend="href=${board.b_no}" th:text="${board.b_title}"></a></td>
-			<td th:text="${board.b_writer}"></td>
-			<td th:text="${board.b_regdate}"></td>
-			<td th:text="${board.b_viewcnt}"></td>
+		<tr th:each="board : ${boards}">
+			<td th:text="${board.bNo}"></td>
+			<td th:text="${board.category.cName}"></td>
+			<td th:text="${board.bDivide}"></td>
+			<td><a href="/board/" th:attrappend="href=${board.bNo}" th:text="${board.bTitle}"></a></td>
+			<td th:text="${board.bWriter}"></td>
+			<td th:text="${board.bRegdate}"></td>
+			<td th:text="${board.bViewcnt}"></td>
 		</tr>
 	</table>
+	
+	
+	
+	
+	<!-- 페이징 -->
+	<nav aria-label="Page navigation example">
+
+	    <!-- 현재 페이지에서 그룹룹페이지 갯수 정 -->
+	    <ul class="pagination"
+	        th:with="start=${T(Math).floor(boards.number/10)*10 + 1},
+	                    last=(${start + 9 < boards.totalPages ? start + 9 : boards.totalPages})">
+	
+	        <!-- 첫 페이지 -->
+	        <li class="page-item">
+	            <a class="page-link" th:href="@{/board(page=1)}">First</a>
+	        </li>
+	
+	        <!-- 이전 페이지 -->
+	        <li class="page-item" th:class="${boards.first} ? 'disabled'" >
+	            <a class="page-link" th:href="${boards.first} ? '#' :@{/board(page=${boards.number})}">&lt;</a>
+	        </li>
+	
+	        <!-- 현재 페이지 그룹의 페이지 나열 -->
+	        <li class="page-item"th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == boards.number + 1} ? 'active'">
+	            <a class="page-link" th:text="${page}" th:href="@{/board(page=${page})}"></a>
+	        </li>
+	
+	        <!-- 다음 페이지 -->
+	        <li class="page-item" th:class="${boards.last} ? 'disabled'" >
+	            <a class="page-link" th:href="${boards.last} ? '#' :@{/board(page=${boards.number + 2})}">&gt;</a>
+	        </li>
+	
+	        <!-- 마지막 페이지 -->
+	        <li class="page-item">
+	            <a class="page-link" th:href="@{/board(page=${boards.totalPages})}">Last</a>
+	        </li>
+	    </ul>
+	</nav>
+	
+	
+	
 	
 	<a href="/board/write">글쓰기</a>
 	

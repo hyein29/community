@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>[[${content.b_title}]]</title>
+<title>[[${content.bTitle}]]</title>
 
 	<!-- css -->
     <link rel="stylesheet" href="/css/board/content.css">
@@ -11,22 +11,27 @@
 <body>
 	<h1>view content</h1>
 		
-	<a href="#">[[${content.category.c_name}]]</a> > <a href="#">[[${content.b_divide}]]</a> <br>
+	<a href="#">[[${content.category.cName}]]</a> > <a href="#">[[${content.bDivide}]]</a> <br>
 	
-	제목 : [[${content.b_title}]] <br>
-	작성자 : [[${content.b_writer}]] <br>
-	작성일 : [[${content.b_regdate}]] <br>
-	조회수 : [[${content.b_viewcnt}]] <br>
+	제목 : [[${content.bTitle}]] <br>
+	작성자 : [[${content.bWriter}]] <br>
+	작성일 : [[${content.bRegdate}]] <br>
+	조회수 : [[${content.bViewcnt}]] <br>
 	
 	<div class="content_ared">
 		<!-- 이미지 및 파일 바꿔주기위한 과정 -->
-		<input type="hidden" name="content1" id="content1" th:value="${content.b_content}">
+		<input type="hidden" name="content1" id="content1" th:value="${content.bContent}">
 		<div id="content2"></div>
 	</div>
 	
-	<a href="/board/modify/" th:attrappend="href=${content.b_no}">수정</a>
-	<a href="#">삭제</a>
+	<a href="/board/modify/" th:attrappend="href=${content.bNo}" id="modify_btn">수정</a>
+	<a href="#" id="delete_btn">삭제</a>
 	<a href="/board">뒤로가기</a>
+	
+	<form method="post" id="frm">
+		<input type="hidden" name="_method" id="method_input">
+		<input type="hidden" id="b_no" th:value="${content.bNo}">
+	</form>
 	
 	
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -38,7 +43,25 @@
     $(function(){
         var content1 = $("#content1").val();
         $("#content2").html(content1);
+        
+        var b_no = $("#b_no").val();
 
+        $("#delete_btn").on("click", function(e){
+        	e.preventDefault();
+        	
+        	if(confirm("삭제하시겠습니까?")) {
+        		alert("게시물이 삭제되었습니다.");
+        		$("#method_input").val("delete");
+            	
+            	var frm = $("#frm");
+            	/* frm.action = "location.href='/board/'"+b_no; */
+            	frm.action = "/board/"+b_no;
+    			frm.submit();
+        	}else{
+        		return;
+        	}
+        });
+    
     })
 
 </script>

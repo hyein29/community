@@ -25,27 +25,34 @@ public class Board {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long b_no;
+	@Column(name = "b_no")
+	private Long bNo;
 	
 	@ManyToOne
 	@JoinColumn(name = "c_no")
 	private Category category;
 	
-	private String b_divide;
+	@Column(name = "b_divide")
+	private String bDivide;
 	
-	private String b_title;
+	@Column(name = "b_title")
+	private String bTitle;
 	
-	private String b_content;
+	@Column(name = "b_content")
+	private String bContent;
 	
-	private String b_writer;
+	@Column(name = "b_writer")
+	private String bWriter;
 	
 	@CreationTimestamp
-	@Column(updatable = false)
-	private Timestamp b_regdate;
+	@Column(name = "b_regdate", updatable = false)
+	private Timestamp bRegdate;
 	
 	@UpdateTimestamp
-	private Timestamp b_moddate;
+	@Column(name = "b_moddate")
+	private Timestamp bModdate;
 	
-	private int b_viewcnt;
+	@Column(name = "b_viewcnt")
+	private int bViewcnt;
 
 }

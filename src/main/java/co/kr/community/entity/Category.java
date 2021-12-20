@@ -3,6 +3,7 @@ package co.kr.community.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,9 +27,11 @@ public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long c_no;
+	@Column(name = "c_no")
+	private Long cNo;
 	
-	private String c_name;
+	@Column(name = "c_name")
+	private String cName;
 	
 	@OneToMany(mappedBy = "category")
 	private List<Board> boards = new ArrayList<>();
