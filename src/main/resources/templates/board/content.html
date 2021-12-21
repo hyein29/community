@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>[[${content.bTitle}]]</title>
@@ -30,11 +31,19 @@
 	
 	<form method="post" id="frm">
 		<input type="hidden" name="_method" id="method_input">
-		<input type="hidden" id="b_no" th:value="${content.bNo}">
+		<input type="hidden" id="bNo" th:value="${content.bNo}">
 	</form>
-	
+
+
+
+	<div th:replace="board/comment :: board-comment"></div>
+
+
 	
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script src="/js/board/comment.js"></script>
+
 </body>
 
 
@@ -44,7 +53,7 @@
         var content1 = $("#content1").val();
         $("#content2").html(content1);
         
-        var b_no = $("#b_no").val();
+        var bNo = $("#bNo").val();
 
         $("#delete_btn").on("click", function(e){
         	e.preventDefault();
@@ -55,7 +64,7 @@
             	
             	var frm = $("#frm");
             	/* frm.action = "location.href='/board/'"+b_no; */
-            	frm.action = "/board/"+b_no;
+            	frm.action = "/board/"+bNo;
     			frm.submit();
         	}else{
         		return;

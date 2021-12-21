@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,8 +29,10 @@ import lombok.Setter;
 public class Member {
 	
 	@Id
+	@Size(min = 4, max = 16, message = "아이디는 4~12자리로 입력해야 합니다.")
 	private String username;
 	
+	@Size(min = 4, message = "비밀번호를 4자 이상 입력해주세요.")
 	private String password;
 	
 	private String name;
@@ -45,7 +48,7 @@ public class Member {
 	@Column(name = "unreg_date")
 	private Timestamp unregDate;
 	
-	private int enabled;
+	private boolean enabled;
 	
 	
 	@JsonIgnore
@@ -53,7 +56,7 @@ public class Member {
     @JoinTable(
             name = "member_role", // 조인 테이블 명
             joinColumns = @JoinColumn(name = "username"), // 현재 엔티티(user)를 참조하는 외래키 (member_role 테이블의 username)
-            inverseJoinColumns = @JoinColumn(name = "role_id")) // 반대 엔티티(role)를 참조하는 외래키 (member_role 테이블의 role_no)
+            inverseJoinColumns = @JoinColumn(name = "role_no")) // 반대 엔티티(role)를 참조하는 외래키 (member_role 테이블의 role_no)
     private List<Role> roles = new ArrayList<>();
 
 	

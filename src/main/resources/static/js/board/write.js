@@ -53,7 +53,7 @@
 
 
     //저장버튼 클릭
-    $(document).on('click', '#save_btn', function () {
+    $(document).on('click', '#saveBtn', function () {
         saveContent();
     });
 

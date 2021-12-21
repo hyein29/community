@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>글쓰기</title>
@@ -51,7 +52,7 @@
 	<input type="text" name="bWriter" placeholder="작성자" class="board_input"><br>
 	<div id="summernote" name="bContent"></div>
 	
-	<button type="submit" id="save_btn">작성하기</button>
+	<button type="submit" id="saveBtn">작성하기</button>
 	<button onclick="location.href='/board'">취소</button>
 	
 <script src="/js/board/write.js"></script>
