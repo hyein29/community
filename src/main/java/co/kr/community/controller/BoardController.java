@@ -34,8 +34,10 @@ import org.apache.commons.io.FileUtils;
 
 import co.kr.community.entity.Board;
 import co.kr.community.entity.Category;
+import co.kr.community.entity.Comment;
 import co.kr.community.service.BoardService;
 import co.kr.community.service.CategoryService;
+import co.kr.community.service.CommentService;
 
 @Controller
 public class BoardController {
@@ -45,6 +47,9 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	CommentService commentService;
 
 	// 게시판 조회
 //	@RequestMapping(value = "/board", method = RequestMethod.GET)
@@ -89,7 +94,9 @@ public class BoardController {
 		boardService.updateViewCnt(bNo);
 		ModelAndView mv = new ModelAndView("board/content");
 		Optional<Board> content = boardService.getBoardContent(bNo);
+		List<Comment> comments = commentService.getCommentList(bNo);
 		mv.addObject("content", content.get()); // Optional에서 값을 빼오려면 get()을 써줘야 함
+		mv.addObject("comments", comments);
 		return mv;
 	}
 	

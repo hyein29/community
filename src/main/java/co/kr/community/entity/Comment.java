@@ -13,11 +13,15 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -33,19 +37,21 @@ public class Comment {
 	
 	@ManyToOne
 	@JoinColumn(name = "b_no")
+//	@JsonBackReference
 	private Board board;
+
+	@Column(name = "cm_grp")
+	private int cmGrp;
 	
 	@Column(name = "cm_seq")
 	private int cmSeq;
-	
-	@Column(name = "cm_lvl")
-	private int cmLvl;
 	
 	@Column(name = "cm_content")
 	private String cmContent;
 	
 	@ManyToOne
 	@JoinColumn(name = "cm_writer", referencedColumnName = "username")
+//	@JsonBackReference
 	private Member member;
 	
 	@CreationTimestamp
