@@ -40,7 +40,7 @@
 
  	<h1>comment</h1>
 	<div>
-		<table class="cmtWriteTable">
+		<table class="cmtWriteTable" sec:authorize="isAuthenticated()">
 			<tr>
 				<td style="padding: 5px; padding-left: 10px;"><b sec:authentication="name" id="cmWriter"></b></td>
 				<td></td>
@@ -56,27 +56,37 @@
 	
 	<div>
 		<table class="cmtListTable" border="1">
-			<tr>
-				<td>작성자</td>
-				<td>작성일</td>
-				<td>내용</td>
-				<td>group</td>
-				<td>sequence</td>
+			<tr th:if="${comments.size() == 0}">
+				<td>등록된 댓글이 없습니다.<td>
 			</tr>
-			<tr th:each="comment : ${comments}" th:class="comment">
-				<td th:text="${comment.cmWriter}"></td>
-				<td th:text="${comment.cmRegdate}"></td>
+			
+			<tr th:each="comment : ${comments}">
+				<td th:if="${comment.cmSeq == 1}">
+					<div><b>[[${comment.member.nickname}]]</b> <span style="font-size: small">[[${comment.cmRegdate}]]</span>
+						<button class="replyBtn" th:id="${comment.cmGrp}" sec:authorize="isAuthenticated()">답글</button>
+						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:if="${comment.member.username == #authentication.name}">삭제</button>
+					</div>
+					<div>[[${comment.cmContent}]]</div>
+				</td>
+				
+				<td th:if="${comment.cmSeq != 1}" style="padding-left: 40px;">
+					<div><b>[[${comment.member.nickname}]]</b> <span style="font-size: small">[[${comment.cmRegdate}]]</span>
+						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:if="${comment.member.username == #authentication.name}">삭제</button>
+					</div>
+					<div>[[${comment.cmContent}]]</div>
+				</td>
+				
+				
+				<!-- <td th:text="${comment.cmRegdate}"></td>
 				<td th:text="${comment.cmContent}"></td>
 				<td th:text="${comment.cmGrp}"></td>
 				<td th:text="${comment.cmSeq}"></td>
-				<td>
-					<button class="replyBtn" th:id="${comment.cmGrp}">답글</button>
-				</td>
+				<td th:if="${comment.cmSeq == 1}">
+					<button class="replyBtn" th:id="${comment.cmGrp}">답글</button></td> -->
 			</tr>
-			
 		</table>
 	</div>	
-
+ 
 
 
 	

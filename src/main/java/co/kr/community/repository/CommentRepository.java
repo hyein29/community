@@ -12,13 +12,14 @@ import co.kr.community.entity.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	
-//	List<Comment> findAllByBNo(Long bNo);
-	
+	// 게시물 별 댓글 목록 group 순으로 조회
     @Query(value = "select * from comment where b_no = :bNo order by cm_grp", nativeQuery = true)
-//    @Query(value = "select cm_no, b_no, cm_grp, cm_seq, cm_content, cm_writer from comment where b_no = :bNo", nativeQuery = true)
     List<Comment> getCommentListByBNoOrderByCmGrp(Long bNo);
 
     @Query(value = "select max(cm_grp) as cm_grp from comment where b_no = :bNo", nativeQuery = true)
     Integer getLastCommentGroup(Long bNo);
+    
+    @Query(value = "select max(cm_seq) as cm_seq from comment where b_no = :bNo and cm_grp = :cmGrp", nativeQuery = true)
+    Integer getLastCommentSequence(Long bNo, int cmGrp);
 	
 }

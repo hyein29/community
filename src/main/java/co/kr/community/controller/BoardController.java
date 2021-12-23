@@ -39,7 +39,7 @@ import co.kr.community.service.BoardService;
 import co.kr.community.service.CategoryService;
 import co.kr.community.service.CommentService;
 
-@Controller
+@RestController
 public class BoardController {
 
 	@Autowired

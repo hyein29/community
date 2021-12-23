@@ -14,7 +14,7 @@ $(document).ready(function(){
 		console.log(comment);
 		
 				
-		if(confirm("댓글을 작성하시겠습니까?")){
+		if(confirm("댓글을 등록하시겠습니까?")){
 			$.ajax({
 				url : "/comment",
 				type : "POST",
@@ -36,17 +36,100 @@ $(document).ready(function(){
 	
 	})
 	
+	//  cmGrp 전역 변수로 지정
+	var cmGrp = "";
 	
-	// 답댓글 등록
+	// 답댓글 작성란 나타내기
 	$(".replyBtn").click(function() {
 	
-		var cmGrp = $(this).attr('id');
+		hideReplyInput();
+	
+		// 답글 버튼 클릭 시 cmGrp에 해당 댓글 grp값 담기
+		cmGrp = $(this).attr("id");
+		
 		alert(cmGrp);
 		
-		//var tableElement = "<tr>"; 
-		
-		//$("#cmtListTable").append(tableElement);
+		var replyInput = "<tr class='replyInput'>"
+						+ "<td colspan='6'><div style='margin-left: 40px'>"
+						+ "<input type='text' size='40' id='rpContent'> "
+						+ "<button class='insertReplyBtn'>등록</button> "
+						+ "<button class='cancelReplyBtn'>취소</button>"
+						+ "</div></td>"
+						+ "</tr>"; 
+	
+		$(this).closest("tr").after(replyInput);
 	})
+	
+	// 답댓글 작성란 숨기기
+	function hideReplyInput() {
+		$(".replyInput").hide();
+	}
+	
+	// 취소 버튼 클릭 시 답댓글 작성란 사라지게
+	$(document).on('click', '.cancelReplyBtn', function () {
+		hideReplyInput();
+	});
+	
+	
+	// 답댓글 등록
+	$(document).on('click', '.insertReplyBtn', function () {
+		var comment = new Object();
+		var cmContent = $("#rpContent").val();
+		var bNo = $("#bNo").val();
+	
+		comment.bNo = bNo; 
+		comment.cmContent = cmContent; 
+		comment.cmGrp = cmGrp;
+		
+		if(confirm("댓글을 등록하시겠습니까?")){
+			$.ajax({
+				url : "/comment/reply",
+				type : "POST",
+				data : JSON.stringify(comment),
+				contentType: "application/json; charset=UTF-8",
+				success : function(data) {
+					alert("대대대대댓글이 등록되었습니다.");
+					location.reload();
+				},
+				error : function(request, status, error) {
+					alert("에러");
+					alert("code:"+request.status);
+				}
+			});
+					
+		}else{
+			alert("취소되었습니다.");
+		}
+		
+	})
+	
+	// 댓글 삭제
+	$(".deleteReplyBtn").on('click', function () {
+		
+		var cmNo = $(this).attr("id");
+		alert(cmNo);
+		
+	
+		if(confirm("댓글을 삭제하시겠습니까?")){
+			$.ajax({
+				url : "/comment",
+				type : "DELETE",
+				success : function(data) {
+					alert("댓글이 삭제되었습니다.");
+					location.reload();
+				},
+				error : function(request, status, error) {
+					alert("에러");
+					alert("code:"+request.status);
+				}
+			});
+					
+		}else{
+			alert("취소되었습니다.");
+		}
+		
+	})
+	
 
 
 })

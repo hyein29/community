@@ -13,7 +13,13 @@ public interface CommentService {
 	// 댓글 조회
 	List<Comment> getCommentList(Long bNo);
 	
-	// 댓글 group number 조회
+	// 마지막 group 조회
 	Integer getLastCommentGroup(Long bNo);
+	
+	// 특정 group의 마지막 sequence 조회
+	Integer getLastCommentSequence(Long bNo, int cmGrp);
+	
+	// 댓글 삭제
+	void delete(Long cmNo);
 	
 }

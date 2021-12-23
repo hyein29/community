@@ -29,6 +29,16 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepository.getLastCommentGroup(bNo);
 	}
 
+	@Override
+	public Integer getLastCommentSequence(Long bNo, int cmGrp) {
+		return commentRepository.getLastCommentSequence(bNo, cmGrp);
+	}
+
+	@Override
+	public void delete(Long cmNo) {
+		commentRepository.deleteById(cmNo);
+	}
+
 	
 
 }
