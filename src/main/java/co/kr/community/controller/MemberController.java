@@ -1,11 +1,12 @@
 package co.kr.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kr.community.entity.Member;
 import co.kr.community.service.MemberService;
@@ -17,6 +18,9 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 
+	@Autowired
+	JavaMailSender javaMailSender;
+	
 	// 로그인 페이지
 	@GetMapping("/login")
 	public String loginPage() {
@@ -36,5 +40,12 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 이메일 인증번호 전송
+	@PostMapping("/register/sendCode")
+	@ResponseBody
+	public String sendCode(String email) {
+		System.out.println("================sendEmail 진입===============");
+		return memberService.sendCode(email);
+	}
 
 }

@@ -16,10 +16,94 @@
         <input type="password" name="password" placeholder="password" required><br>
         <input type="text" name="name" placeholder="name" required><br>
         <input type="text" name="nickname" placeholder="nickname" required><br>
-        <input type="text" name="email" placeholder="email" required><br><br>
-        <input type="submit" value="Sign in">
+        
+       	<!-- email -->
+        <input type="text" name="email" class="emailInput" placeholder="email" required>
+        <input type="text" class="emailCodeInput" size="7px">
+        <button type="button" class="sendCodeBtn">인증번호 전송</button>
+        <span class="emailErr">이메일을 인증해주세요.</span>
+        <span class="emailCorrect">인증번호가 일치합니다.</span>
+        <span class="emailNotCorrect">인증번호가 일치하지 않습니다.</span>
+        
+        <br><br>
+        
+        <input type="submit" value="signup">
     </form>
 	
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	
 </body>
+
+<script>
+
+
+
+</script>
+
+
+<script>
+$(document).ready(function(){
+	
+	var code = ""; // 이메일 전송 인증번호 저장을 위한 변수
+	
+	$(".emailErr").hide();
+	$(".emailCorrect").hide();
+	$(".emailNotCorrect").hide();
+	$(".emailCodeInput").hide();
+	
+	
+	// 이메일 인증번호 전송
+	$(".sendCodeBtn").click(function () {
+		var email = $(".emailInput").val(); // 입력한 이메일
+	    var emailCodeInput = $(".emailCodeInput"); // 인증번호 입력란
+	    
+	    alert(email);
+	    
+	    $.ajax({
+	    	url: "/member/register/sendCode",
+	    	type: "POST",
+	    	data: {email:email},
+	    	success: function(result){
+	    		
+	    		if(result != null){
+	    			// 이메일 전송 후 인증번호 입력란 show, code에 발송한 인증번호 저장
+	        		emailCodeInput.show();
+	        		emailCodeInput.focus();
+	        		
+	        		code = result;
+	    		}
+	    		
+	    		
+	    	}
+	    });
+	});
+
+	
+	
+    // 인증번호 비교
+    $(".emailCodeInput").on("propertychange change keyup paste input", function () {
+        var inputCode = $(this).val(); // 입력된 인증번호
+       
+        if (inputCode == code) {
+            $(".emailCorrect").show();
+            $(".emailNotCorrect").hide();
+           /*  $(".emailCodeInput").attr("readonly", "readonly"); */
+            $(".emailInput").attr("readonly", "readonly");
+        } else {
+            $(".emailNotCorrect").show();
+            $(".emailCorrect").hide();
+        }
+    });
+	
+
+
+
+
+
+
+});
+
+
+</script>
+
 </html>

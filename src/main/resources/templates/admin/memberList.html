@@ -11,7 +11,9 @@
 	
  	<table border="1">
 		<tr>
-			<td></td>
+			<td>
+				<input type="checkbox" id="checkAll">
+			</td>
 			<td>no</td>
 			<td>ID</td>
 			<td>이름</td>
@@ -22,8 +24,8 @@
 		</tr>
 		
 		<tr th:each="member, i : ${members}">
-			<td>
-				<input type="checkbox" class="ckBox" id="${member.username}">
+			<td th:id="${member.username}">
+				<input type="checkbox" class="chkBox">
 			</td>
 			<td th:text="${i.count}"></td>
 			<td th:text="${member.username}"></td>
@@ -36,7 +38,16 @@
 		</tr>
 	</table>
 	
+	<form method="post" style="margin-top: 30px" id="deleteform">
+		<input type="hidden" name="_method" value="delete">
+		<button id="deleteBtn">삭제</button>
+	</form>
 	
+	
+	
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script src="/js/admin/memberList.js"></script>	
 	
 </body>
 </html>

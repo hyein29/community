@@ -14,6 +14,11 @@ public interface MemberService {
 	/* 관리자 페이지 */
 	// 회원 목록 조회
 	Page<Member> getMemberList(Pageable pageable);
+
+
+	/* 회원 가입 시 */
+	// 이메일 인증번호 전송
+	String sendCode(String email);
 	
 	
 }

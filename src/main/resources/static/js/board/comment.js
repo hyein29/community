@@ -16,15 +16,15 @@ $(document).ready(function(){
 				
 		if(confirm("댓글을 등록하시겠습니까?")){
 			$.ajax({
-				url : "/comment",
-				type : "POST",
-				data : JSON.stringify(comment),
+				url: "/comment",
+				type: "POST",
+				data: JSON.stringify(comment),
 				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
+				success: function(data) {
 					alert("댓글이 등록되었습니다.");
 					location.reload();
 				},
-				error : function(request, status, error) {
+				error: function(request, status, error) {
 					alert("에러");
 					alert("code:"+request.status);
 				}
@@ -83,15 +83,15 @@ $(document).ready(function(){
 		
 		if(confirm("댓글을 등록하시겠습니까?")){
 			$.ajax({
-				url : "/comment/reply",
-				type : "POST",
-				data : JSON.stringify(comment),
+				url: "/comment/reply",
+				type: "POST",
+				data: JSON.stringify(comment),
 				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
+				success: function(data) {
 					alert("대대대대댓글이 등록되었습니다.");
 					location.reload();
 				},
-				error : function(request, status, error) {
+				error: function(request, status, error) {
 					alert("에러");
 					alert("code:"+request.status);
 				}
@@ -121,15 +121,15 @@ $(document).ready(function(){
 	
 		if(confirm("댓글을 삭제하시겠습니까?")){
 			$.ajax({
-				url : "/comment",
-				type : "DELETE",
-				data : JSON.stringify(comment),
+				url: "/comment",
+				type: "DELETE",
+				data: JSON.stringify(comment),
 				contentType: "application/json; charset=UTF-8",
-				success : function(data) {
+				success: function(data) {
 					alert("댓글이 삭제되었습니다.");
 					location.reload();
 				},
-				error : function(request, status, error) {
+				error: function(request, status, error) {
 					alert("에러");
 					alert("code:"+request.status);
 				}
