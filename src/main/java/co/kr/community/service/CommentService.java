@@ -1,7 +1,7 @@
 package co.kr.community.service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import co.kr.community.entity.Comment;
 
@@ -20,6 +20,6 @@ public interface CommentService {
 	Integer getLastCommentSequence(Long bNo, int cmGrp);
 	
 	// 댓글 삭제
-	void delete(Long cmNo);
+	void delete(HashMap<String, Object> comment);
 	
 }

@@ -1,36 +1,18 @@
 package co.kr.community.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.google.gson.JsonObject;
-
-import org.apache.commons.io.FileUtils;
 
 import co.kr.community.entity.Board;
 import co.kr.community.entity.Category;
@@ -39,7 +21,7 @@ import co.kr.community.service.BoardService;
 import co.kr.community.service.CategoryService;
 import co.kr.community.service.CommentService;
 
-@RestController
+@Controller
 public class BoardController {
 
 	@Autowired
@@ -114,8 +96,8 @@ public class BoardController {
 	public String modify(Board board, RedirectAttributes redirectAttributes) {
 		System.out.println("board ======================> " + board);
 		boardService.update(board);
-		redirectAttributes.addAttribute("b_no", board.getBNo());
-		return "redirect:/board/{b_no}";
+		redirectAttributes.addAttribute("bNo", board.getBNo());
+		return "redirect:/board/{bNo}";
 	}
 	
 	// 게시물 삭제

@@ -1,11 +1,12 @@
 package co.kr.community.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.kr.community.entity.Comment;
 
@@ -21,5 +22,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     
     @Query(value = "select max(cm_seq) as cm_seq from comment where b_no = :bNo and cm_grp = :cmGrp", nativeQuery = true)
     Integer getLastCommentSequence(Long bNo, int cmGrp);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "delete from comment where b_no = :bNo and cm_grp = :cmGrp", nativeQuery = true)
+    void deleteComment(Long bNo, int cmGrp);
 	
 }

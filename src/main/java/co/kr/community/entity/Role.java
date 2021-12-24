@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
@@ -33,4 +34,9 @@ public class Role {
     @ManyToMany(mappedBy = "roles") // Member 클래스의 컬럼 이름
     @JsonIgnore
     private List<Member> members;
+    
+//    public String getName() {
+//    	
+//    	return name;
+//    }
 }

@@ -62,7 +62,6 @@ public class Member {
             joinColumns = @JoinColumn(name = "username"), // 현재 엔티티(user)를 참조하는 외래키 (member_role 테이블의 username)
             inverseJoinColumns = @JoinColumn(name = "role_no")) // 반대 엔티티(role)를 참조하는 외래키 (member_role 테이블의 role_no)
     private List<Role> roles = new ArrayList<>();
-
 	
 
 }

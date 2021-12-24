@@ -106,14 +106,25 @@ $(document).ready(function(){
 	// 댓글 삭제
 	$(".deleteReplyBtn").on('click', function () {
 		
+		var bNo = $("#bNo").val();
 		var cmNo = $(this).attr("id");
-		alert(cmNo);
+		var cmGrp = $(this).attr("data-grp");
+		var cmSeq = $(this).attr("data-seq");
+		
+		var comment = new Object();
+		
+		comment.bNo = bNo;
+		comment.cmNo = cmNo;
+		comment.cmGrp = cmGrp;
+		comment.cmSeq = cmSeq;
 		
 	
 		if(confirm("댓글을 삭제하시겠습니까?")){
 			$.ajax({
 				url : "/comment",
 				type : "DELETE",
+				data : JSON.stringify(comment),
+				contentType: "application/json; charset=UTF-8",
 				success : function(data) {
 					alert("댓글이 삭제되었습니다.");
 					location.reload();
@@ -125,7 +136,7 @@ $(document).ready(function(){
 			});
 					
 		}else{
-			alert("취소되었습니다.");
+			return;
 		}
 		
 	})

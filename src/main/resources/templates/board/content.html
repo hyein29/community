@@ -61,28 +61,23 @@
 			</tr>
 			
 			<tr th:each="comment : ${comments}">
+				
+				<!-- sequence가 1일 경우 일반 댓글 -->
 				<td th:if="${comment.cmSeq == 1}">
 					<div><b>[[${comment.member.nickname}]]</b> <span style="font-size: small">[[${comment.cmRegdate}]]</span>
 						<button class="replyBtn" th:id="${comment.cmGrp}" sec:authorize="isAuthenticated()">답글</button>
-						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:if="${comment.member.username == #authentication.name}">삭제</button>
+						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:data-grp="${comment.cmGrp}" th:data-seq="${comment.cmSeq}" th:if="${comment.member.username == #authentication.name}">삭제</button>
 					</div>
 					<div>[[${comment.cmContent}]]</div>
 				</td>
 				
+				<!-- sequence가 1이 아닐 경우 대댓글 -->
 				<td th:if="${comment.cmSeq != 1}" style="padding-left: 40px;">
 					<div><b>[[${comment.member.nickname}]]</b> <span style="font-size: small">[[${comment.cmRegdate}]]</span>
-						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:if="${comment.member.username == #authentication.name}">삭제</button>
+						<button class="deleteReplyBtn" th:id="${comment.cmNo}" th:data-grp="${comment.cmGrp}" th:data-seq="${comment.cmSeq}" th:if="${comment.member.username == #authentication.name}">삭제</button>
 					</div>
 					<div>[[${comment.cmContent}]]</div>
 				</td>
-				
-				
-				<!-- <td th:text="${comment.cmRegdate}"></td>
-				<td th:text="${comment.cmContent}"></td>
-				<td th:text="${comment.cmGrp}"></td>
-				<td th:text="${comment.cmSeq}"></td>
-				<td th:if="${comment.cmSeq == 1}">
-					<button class="replyBtn" th:id="${comment.cmGrp}">답글</button></td> -->
 			</tr>
 		</table>
 	</div>	

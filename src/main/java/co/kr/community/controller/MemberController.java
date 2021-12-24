@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.kr.community.entity.Member;
 import co.kr.community.service.MemberService;
 
-@RestController
+@Controller
 @RequestMapping("/member")
 public class MemberController {
 

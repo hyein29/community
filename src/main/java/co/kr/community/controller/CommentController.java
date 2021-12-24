@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import co.kr.community.entity.Comment;
 import co.kr.community.entity.Member;
 import co.kr.community.service.CommentService;
 
-@RestController
+@Controller
 public class CommentController {
 
 	@Autowired
@@ -112,12 +113,15 @@ public class CommentController {
 	}
 	
 	// 댓글 삭제
-	@DeleteMapping("/comment/{cmNo}")
+	@DeleteMapping("/comment")
 	@ResponseBody
-	public String delete(@PathVariable("cmNo") Long cmNo) {
-		System.out.println("cmNo ======================> " + cmNo);
+	public String delete(@RequestBody HashMap<String, Object> comment) {
+		System.out.println("comment =======================> " + comment);
 		
-		return "redirect:/board";
+		commentService.delete(comment);
+		
+		String result = "success";
+		return result;
 	}
 	
 }

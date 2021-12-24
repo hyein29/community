@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>회원 관리</title>
+</head>
+<body>
+	<h1>회원 관리</h1>
+	
+	
+ 	<table border="1">
+		<tr>
+			<td></td>
+			<td>no</td>
+			<td>ID</td>
+			<td>이름</td>
+			<td>닉네임</td>
+			<td>이메일</td>
+			<td>등록일</td>
+			<td>권한</td>
+		</tr>
+		
+		<tr th:each="member, i : ${members}">
+			<td>
+				<input type="checkbox" class="ckBox" id="${member.username}">
+			</td>
+			<td th:text="${i.count}"></td>
+			<td th:text="${member.username}"></td>
+			<td th:text="${member.name}"></td>
+			<td th:text="${member.nickname}"></td>
+			<td th:text="${member.email}"></td>
+			<td th:text="${member.regDate}"></td>
+			<td th:if="${#lists.size(member.roles) == 1}" th:text="${member.roles.get(0).getName()}"></td>
+			<td th:if="${#lists.size(member.roles) != 1}" th:text="${member.roles.get(1).getName()}"></td>
+		</tr>
+	</table>
+	
+	
+	
+</body>
+</html>

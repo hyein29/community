@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         		.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/", "/member/register", "/board/**", "/css/**").permitAll() // 누구나 접근 허용
+                    .mvcMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated() // 나머지 요청들은 권한의 종류에 상관없이 권한이 있어야 접근
                     .and()
                 .formLogin()

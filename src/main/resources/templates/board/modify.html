@@ -26,6 +26,7 @@
 	<input type="text" name="bNo" class="board_input" th:value="${content.bNo}"><br>
 	<input type="text" name="category.cNo" class="board_input" th:value="${content.category.cNo}"><br>
 	<input type="text" name="bWriter" class="board_input" th:value="${content.bWriter}"><br>
+ 	<input type="text" name="bViewcnt" class="board_input" th:value="${content.bViewcnt}"><br>
 	
 	<select name="bDivide" class="board_input">
 		<option value="">--------------</option>
@@ -40,7 +41,7 @@
 		<div id="summernote" name="bContent"></div>
 	</div>
 	
-	<input type="hidden" name="_method" class="board_input" value="put">
+ 	<input type="hidden" name="_method" class="board_input" value="put">
 	 
 	<button type="submit" id="saveBtn">작성하기</button>
 	<button type="button" onclick="location.href='/board'">취소</button>
