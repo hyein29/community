@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.kr.community.entity.Board;
 import co.kr.community.entity.Comment;
+import co.kr.community.entity.Member;
 import co.kr.community.repository.CommentRepository;
 
 @Service
@@ -17,23 +19,81 @@ public class CommentServiceImpl implements CommentService {
 	CommentRepository commentRepository;
 	
 	@Override
-	public Comment insert(Comment comment) {
-		return commentRepository.save(comment);
+	public Comment insertComment(HashMap<String, Object> comment, Principal principal) {
+		System.out.println("========Impl insertComment 도입부=========");
+		System.out.println("=======================" + comment);
+
+		
+		Long bNo = Long.parseLong(comment.get("bNo").toString());
+		String username = principal.getName();
+		String cmContent = comment.get("cmContent").toString();
+		
+		Comment insertComment = new Comment();
+		
+		Board board = new Board();
+		board.setBNo(bNo);
+		insertComment.setBoard(board);
+		
+		
+		Member member = new Member();
+		member.setUsername(username);
+		insertComment.setMember(member);
+		
+		int lastCmGrp = 0;
+		
+		if(commentRepository.getLastCommentGroup(bNo) != null) {
+			lastCmGrp = commentRepository.getLastCommentGroup(bNo);
+		}
+		
+		insertComment.setCmContent(cmContent);
+		insertComment.setCmGrp(lastCmGrp + 1);
+		insertComment.setCmSeq(1);
+		
+		System.out.println(insertComment);
+	
+		return commentRepository.save(insertComment);
+	}
+	
+	@Override
+	public Comment insertReply(HashMap<String, Object> comment, Principal principal) {
+		System.out.println("========Impl insertReply 도입부=========");
+		System.out.println("=======================" + comment);
+
+		String username = principal.getName();
+		Long bNo = Long.parseLong(comment.get("bNo").toString());
+		String cmContent = comment.get("cmContent").toString();
+		int cmGrp = Integer.parseInt(comment.get("cmGrp").toString());
+		
+		Comment insertReply = new Comment();
+		
+		Board board = new Board();
+		board.setBNo(bNo);
+		insertReply.setBoard(board);
+		
+		Member member = new Member();
+		member.setUsername(username);
+		insertReply.setMember(member);
+		
+		
+		int lastCmSeq = 1;
+		
+		if(commentRepository.getLastCommentSequence(bNo, cmGrp) != 1) {
+			lastCmSeq = commentRepository.getLastCommentSequence(bNo, cmGrp);
+		}
+		
+		insertReply.setCmContent(cmContent);
+		insertReply.setCmGrp(cmGrp);
+		insertReply.setCmSeq(lastCmSeq + 1);
+		
+		System.out.println(insertReply);
+		
+		
+		return commentRepository.save(insertReply);
 	}
 
 	@Override
 	public List<Comment> getCommentList(Long bNo) {
 		return commentRepository.getCommentListByBNoOrderByCmGrp(bNo);
-	}
-
-	@Override
-	public Integer getLastCommentGroup(Long bNo) {
-		return commentRepository.getLastCommentGroup(bNo);
-	}
-
-	@Override
-	public Integer getLastCommentSequence(Long bNo, int cmGrp) {
-		return commentRepository.getLastCommentSequence(bNo, cmGrp);
 	}
 
 	@Override
@@ -50,7 +110,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 	}
-	
+
 	
 	
 
