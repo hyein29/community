@@ -41,11 +41,11 @@ public class MemberController {
 	}
 	
 	// 이메일 인증번호 전송
-	@PostMapping("/register/sendCode")
-	@ResponseBody
-	public String sendCode(String email) {
-		System.out.println("================sendEmail 진입===============");
-		return memberService.sendCode(email);
-	}
+//	@PostMapping("/register/sendCode")
+//	@ResponseBody
+//	public String sendCode(String email) {
+//		System.out.println("================sendEmail 진입===============");
+//		return memberService.sendCode(email);
+//	}
 
 }

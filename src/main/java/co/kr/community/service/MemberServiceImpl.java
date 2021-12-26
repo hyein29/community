@@ -60,8 +60,46 @@ public class MemberServiceImpl implements MemberService {
 		pageable = PageRequest.of(page, 10, Sort.by("regDate"));
 		return memberRepository.findAll(pageable);
 	}
+	
+	
+	
+	// 회원 가입 시
+	/* 아이디 중복 검사 */
+	@Override
+	public String usernameCheck(String username) {
+		
+		if(!memberRepository.findById(username).isEmpty()) {
+			return "exist";
+		}else {
+			return "notExist";
+		}
+	}
+	
+	/* 닉네임 중복 검사 */
+	@Override
+	public String nicknameCheck(String nickname) {
+		
+		if(!memberRepository.findByNickname(nickname).isEmpty()) {
+			return "exist";
+		}else {
+			return "notExist";
+		}
+	}
 
-	// 회원 가입 시 이메일 인증코드 전송
+	/* 이메일 중복 검사 */
+	@Override
+	public String emailCheck(String email) {
+		
+		if(!memberRepository.findByEmail(email).isEmpty()) {
+			return "exist";
+		}else {
+			return sendCode(email);
+		}
+	}
+	
+	
+	
+	/* 이메일 인증번호 전송 */
 	@Override
 	public String sendCode(String email) {
 		
@@ -94,6 +132,8 @@ public class MemberServiceImpl implements MemberService {
 
 		return num;
 	}
+
+	
 	
 	
 
