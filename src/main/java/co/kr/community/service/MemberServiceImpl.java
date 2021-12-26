@@ -63,8 +63,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	// 회원 가입 시
-	/* 아이디 중복 검사 */
+	/* 회원 가입 시 */
+	// 아이디 중복 검사
 	@Override
 	public String usernameCheck(String username) {
 		
@@ -75,7 +75,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
-	/* 닉네임 중복 검사 */
+	// 닉네임 중복 검사
 	@Override
 	public String nicknameCheck(String nickname) {
 		
@@ -86,7 +86,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	/* 이메일 중복 검사 */
+	// 이메일 중복 검사
 	@Override
 	public String emailCheck(String email) {
 		
@@ -99,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	
-	/* 이메일 인증번호 전송 */
+	// 이메일 인증번호 전송
 	@Override
 	public String sendCode(String email) {
 		

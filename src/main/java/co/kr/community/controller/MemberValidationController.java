@@ -28,8 +28,6 @@ public class MemberValidationController {
 		System.out.println("====validationController 아이디 중복 검사 진입==========");
 		
 		return memberService.usernameCheck(username);
-			
-		
 	}
 	
 	// 닉네임 중복 검사
@@ -39,8 +37,6 @@ public class MemberValidationController {
 		System.out.println("====validationController 닉네임 중복 검사 진입==========");
 		
 		return memberService.nicknameCheck(nickname);
-		
-		
 	}
 	
 	// 이메일 중복 검사
@@ -50,11 +46,7 @@ public class MemberValidationController {
 		System.out.println("====validationController 이메일 중복 검사 진입==========");
 		
 		return memberService.emailCheck(email);
-		
-		
 	}
-	
-	
 	
 	// 이메일 인증번호 전송
 	@PostMapping("/register/sendCode")
