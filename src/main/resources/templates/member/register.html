@@ -59,6 +59,8 @@
 	    		<button class="sendCodeBtn" type="button" disabled>이메일 인증하기</button>
 	    	</div>
 	    	<div class="emailCodeDiv">
+	    		<div class="emailCodeAreaValue"></div>
+	    		<div class="emailResendAreaValue"></div>
 	    	</div>
 	    	
 	    	
@@ -409,8 +411,8 @@
    			$(".sendCodeBtn").attr("class", "sendCodeBtn");
    			
    			// 인증번호 입력란 show
-   			$(".emailCodeDiv").append(emailCodeAreaValue);
-			$(".emailCodeDiv").append(emailResendAreaValue);
+   			$(".emailCodeAreaValue").html(emailCodeAreaValue);
+			$(".emailResendAreaValue").html(emailResendAreaValue);
 			$(".emailCodeInput").focus();						 
 		    
 			// 이메일 중복 검사
