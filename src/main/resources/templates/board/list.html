@@ -25,8 +25,8 @@
 			<td th:text="${board.bNo}"></td>
 			<td th:text="${board.category.cName}"></td>
 			<td th:text="${board.bDivide}"></td>
-			<td><a href="/board/" th:attrappend="href=${board.bNo}" th:text="${board.bTitle}"></a></td>
-			<td th:text="${board.bWriter}"></td>
+			<td><a href="/board/" th:attrappend="href=${board.bNo}" th:text="|${board.bTitle} [${board.comments.size()}]|"></a></td>
+			<td th:text="${board.member.nickname}"></td>
 			<td th:text="${board.bRegdate}"></td>
 			<td th:text="${board.bViewcnt}"></td>
 		</tr>

@@ -1,5 +1,6 @@
 package co.kr.community.service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import co.kr.community.entity.Board;
+import co.kr.community.entity.Member;
 import co.kr.community.repository.BoardRepository;
 
 @Service
@@ -21,7 +23,11 @@ public class BoardServiceImpl implements BoardService {
 	BoardRepository boardRepository;
 	
 	@Override
-	public String insert(Board board) {
+	public String insert(Board board, Principal principal) {
+		String username = principal.getName();
+		Member member = new Member();
+		member.setUsername(username);
+		board.setMember(member);
 		boardRepository.save(board);
 		return "success";
 	}

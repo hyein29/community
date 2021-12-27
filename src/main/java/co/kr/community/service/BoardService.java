@@ -1,5 +1,6 @@
 package co.kr.community.service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ import co.kr.community.entity.Board;
 public interface BoardService {
 
 	// 게시물 등록
-	String insert(Board board);
+	String insert(Board board, Principal principal);
 	
 	// 게시물 목록 조회
 	List<Board> getBoardList();

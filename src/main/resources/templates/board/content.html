@@ -15,7 +15,7 @@
 	<a href="#">[[${content.category.cName}]]</a> > <a href="#">[[${content.bDivide}]]</a> <br>
 	
 	제목 : [[${content.bTitle}]] <br>
-	작성자 : [[${content.bWriter}]] <br>
+	작성자 : [[${content.member.nickname}]] <br>
 	작성일 : [[${content.bRegdate}]] <br>
 	조회수 : [[${content.bViewcnt}]] <br>
 	
@@ -25,8 +25,11 @@
 		<div id="content2"></div>
 	</div>
 	
-	<a href="/board/modify/" th:attrappend="href=${content.bNo}" id="modify_btn">수정</a>
-	<a href="#" id="delete_btn">삭제</a>
+	<a href="/board/modify/" th:attrappend="href=${content.bNo}" id="modify_btn" 
+		th:if="${content.member.username == #authentication.name}">수정</a>
+	<a href="#" id="delete_btn" 
+		th:if="${content.member.username == #authentication.name} 
+		or ${#authorization.expression('hasRole(''ROLE_ADMIN'')') ? true : false}">삭제</a>
 	<a href="/board">뒤로가기</a>
 	
 	<form method="post" id="frm">
@@ -117,10 +120,13 @@
         		return;
         	}
         });
-    
-        
         
     })
+    
+    
+    
+    
+    
 
 </script>
 	

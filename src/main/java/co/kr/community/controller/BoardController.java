@@ -70,9 +70,8 @@ public class BoardController {
 	@PostMapping(value = "/board/write")
 	@ResponseBody
 	public String write(Board board, Principal principal) {
-		String username = principal.getName();
-		board.setBWriter(username);
-		return boardService.insert(board);
+		
+		return boardService.insert(board, principal);
 	}
 	
 	// 게시물 조회

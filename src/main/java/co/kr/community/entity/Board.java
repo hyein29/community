@@ -52,8 +52,12 @@ public class Board {
 	@Column(name = "b_content")
 	private String bContent;
 	
-	@Column(name = "b_writer")
-	private String bWriter;
+//	@Column(name = "b_writer")
+//	private String bWriter;
+	
+	@ManyToOne
+	@JoinColumn(name = "b_writer", referencedColumnName = "username")
+	private Member member;
 	
 	@CreationTimestamp
 	@Column(name = "b_regdate", updatable = false)

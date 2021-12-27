@@ -25,7 +25,7 @@
 	<input type="hidden" name="_method" value="put" class="board_input"> -->
 	<input type="text" name="bNo" class="board_input" th:value="${content.bNo}"><br>
 	<input type="text" name="category.cNo" class="board_input" th:value="${content.category.cNo}"><br>
-	<input type="text" name="bWriter" class="board_input" th:value="${content.bWriter}"><br>
+	<input type="text" name="bWriter" class="board_input" th:value="${content.member.username}"><br>
  	<input type="text" name="bViewcnt" class="board_input" th:value="${content.bViewcnt}"><br>
 	
 	<select name="bDivide" class="board_input">
@@ -34,7 +34,7 @@
 		<option th:selected="${content.bDivide}=='궁금해요'">궁금해요</option>
 	</select>
 	<input type="text" name="bTitle" placeholder="제목" class="board_input" th:value="${content.bTitle}"><br>
-	<b>작성자 </b> [[${content.bWriter}]] <br>
+	<b>작성자 </b> [[${content.member.nickname}]] <br>
 	
 	<div class="content_ared">
 		<input type="hidden" name="content" id="content" th:value="${content.bContent}">
