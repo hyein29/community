@@ -21,8 +21,9 @@ public class BoardServiceImpl implements BoardService {
 	BoardRepository boardRepository;
 	
 	@Override
-	public Board insert(Board board) {
-		return boardRepository.save(board);
+	public String insert(Board board) {
+		boardRepository.save(board);
+		return "success";
 	}
 
 	@Override
@@ -48,8 +49,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board update(Board board) {
-		return boardRepository.save(board);
+	public String update(Board board) {
+		boardRepository.save(board);
+		return "success";
 	}
 
 	@Override

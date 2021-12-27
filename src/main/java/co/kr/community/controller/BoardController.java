@@ -1,5 +1,6 @@
 package co.kr.community.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +9,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,7 +49,7 @@ public class BoardController {
 //	}
 	
 	// 게시판 조회(페이징)
-	@RequestMapping(value = "/board", method = RequestMethod.GET)
+	@GetMapping(value = "/board")
 	public ModelAndView list(@PageableDefault Pageable pageable) {
 		ModelAndView mv = new ModelAndView("board/list");
 		Page<Board> boards = boardService.getBoardList(pageable);
@@ -52,7 +58,7 @@ public class BoardController {
 	}
 
 	// 게시물 작성 페이지
-	@RequestMapping(value = "/board/write", method = RequestMethod.GET)
+	@GetMapping(value = "/board/write")
 	public ModelAndView writePage() {
 		ModelAndView mv = new ModelAndView("board/write");
 		List<Category> categories = categoryService.getCategoryList();
@@ -61,17 +67,16 @@ public class BoardController {
 	}
 	
 	// 게시물 작성
-	@RequestMapping(value = "/board/write", method = RequestMethod.POST)
-//	@ResponseBody
-	public String write(Board board) {
-		boardService.insert(board);
-//		String test = "Success";
-//		return test;
-		return "redirect:/board";
+	@PostMapping(value = "/board/write")
+	@ResponseBody
+	public String write(Board board, Principal principal) {
+		String username = principal.getName();
+		board.setBWriter(username);
+		return boardService.insert(board);
 	}
 	
 	// 게시물 조회
-	@RequestMapping(value = "/board/{bNo}", method = RequestMethod.GET)
+	@GetMapping(value = "/board/{bNo}")
 	public ModelAndView content(@PathVariable("bNo") Long bNo) {
 		boardService.updateViewCnt(bNo);
 		ModelAndView mv = new ModelAndView("board/content");
@@ -83,7 +88,7 @@ public class BoardController {
 	}
 	
 	// 게시물 수정 페이지
-	@RequestMapping(value = "/board/modify/{bNo}", method = RequestMethod.GET)
+	@GetMapping(value = "/board/modify/{bNo}")
 	public ModelAndView modify(@PathVariable("bNo") Long bNo) {
 		ModelAndView mv = new ModelAndView("board/modify");
 		Optional<Board> content = boardService.getBoardContent(bNo);
@@ -92,16 +97,16 @@ public class BoardController {
 	}
 	
 	// 게시물 수정
-	@RequestMapping(value = "/board/{bNo}", method = RequestMethod.PUT)
+	@PutMapping(value = "/board/{bNo}")
+	@ResponseBody
 	public String modify(Board board, RedirectAttributes redirectAttributes) {
 		System.out.println("board ======================> " + board);
-		boardService.update(board);
 		redirectAttributes.addAttribute("bNo", board.getBNo());
-		return "redirect:/board/{bNo}";
+		return boardService.update(board);
 	}
 	
 	// 게시물 삭제
-	@RequestMapping(value = "/board/{bNo}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/board/{bNo}")
 	public String delete(@PathVariable("bNo") Long bNo) {
 		System.out.println("bNo ======================> " + bNo);
 		boardService.delete(bNo);

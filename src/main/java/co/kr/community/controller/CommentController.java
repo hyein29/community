@@ -29,9 +29,8 @@ public class CommentController {
 	@PostMapping("/comment")
 	@ResponseBody
 	public String write(@RequestBody HashMap<String, Object> comment, Principal principal) {
-		commentService.insertComment(comment, principal);
-		String result = "success";
-		return result;
+		
+		return commentService.insertComment(comment, principal);
 	}
 	
 	// 댓글 조회
@@ -46,9 +45,8 @@ public class CommentController {
 	@PostMapping("/comment/reply")
 	@ResponseBody
 	public String writeReply(@RequestBody HashMap<String, Object> comment, Principal principal) {
-		commentService.insertReply(comment, principal);
-		String result = "success";
-		return result;
+		
+		return commentService.insertReply(comment, principal);
 	}
 	
 	// 댓글 삭제
@@ -56,8 +54,7 @@ public class CommentController {
 	@ResponseBody
 	public String delete(@RequestBody HashMap<String, Object> comment) {
 		commentService.delete(comment);
-		String result = "success";
-		return result;
+		return "success";
 	}
 	
 }

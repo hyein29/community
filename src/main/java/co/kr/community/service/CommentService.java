@@ -9,10 +9,10 @@ import co.kr.community.entity.Comment;
 public interface CommentService {
 
 	// 댓글 등록
-	Comment insertComment(HashMap<String, Object> comment, Principal principal);
+	String insertComment(HashMap<String, Object> comment, Principal principal);
 	
 	// 대댓글 등록
-	Comment insertReply(HashMap<String, Object> comment, Principal principal);
+	String insertReply(HashMap<String, Object> comment, Principal principal);
 	
 	// 댓글 조회
 	List<Comment> getCommentList(Long bNo);

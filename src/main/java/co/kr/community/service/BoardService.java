@@ -11,7 +11,7 @@ import co.kr.community.entity.Board;
 public interface BoardService {
 
 	// 게시물 등록
-	Board insert(Board board);
+	String insert(Board board);
 	
 	// 게시물 목록 조회
 	List<Board> getBoardList();
@@ -26,7 +26,7 @@ public interface BoardService {
 	Optional<Board> getBoardContent(Long bNo);
 	
 	// 게시물 수정
-	Board update(Board board);
+	String update(Board board);
 	
 	// 게시물 삭제
 	void delete(Long bNo);

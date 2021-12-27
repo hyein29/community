@@ -19,7 +19,7 @@ public class CommentServiceImpl implements CommentService {
 	CommentRepository commentRepository;
 	
 	@Override
-	public Comment insertComment(HashMap<String, Object> comment, Principal principal) {
+	public String insertComment(HashMap<String, Object> comment, Principal principal) {
 		System.out.println("========Impl insertComment 도입부=========");
 		System.out.println("=======================" + comment);
 
@@ -51,11 +51,13 @@ public class CommentServiceImpl implements CommentService {
 		
 		System.out.println(insertComment);
 	
-		return commentRepository.save(insertComment);
+		commentRepository.save(insertComment);
+		
+		return "success";
 	}
 	
 	@Override
-	public Comment insertReply(HashMap<String, Object> comment, Principal principal) {
+	public String insertReply(HashMap<String, Object> comment, Principal principal) {
 		System.out.println("========Impl insertReply 도입부=========");
 		System.out.println("=======================" + comment);
 
@@ -87,8 +89,9 @@ public class CommentServiceImpl implements CommentService {
 		
 		System.out.println(insertReply);
 		
+		commentRepository.save(insertReply);
 		
-		return commentRepository.save(insertReply);
+		return "success";
 	}
 
 	@Override

@@ -39,9 +39,7 @@ public class AdminController {
 	public String delete(@RequestParam(value="arr[]") List<String> arr) {
 		System.out.println(arr);
 		
-		String result = "success";
-		
-		return result;
+		return "success";
 	}
 	
 
