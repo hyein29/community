@@ -65,6 +65,37 @@ public class BoardServiceImpl implements BoardService {
 		boardRepository.deleteById(bNo);
 	}
 
+	@Override
+	public String likesCheck(Long bNo, Principal principal) {
+		
+		String username = principal.getName();
+		
+		if(boardRepository.likesCheck(bNo, username) == 1) {
+			return "true";
+		}else {
+			return "false";
+		}
+		
+	}
+
+	@Override
+	public String insertLike(Long bNo, Principal principal) {
+		
+		String username = principal.getName();
+		boardRepository.insertLike(bNo, username);
+		
+		return "success";
+	}
+
+	@Override
+	public String deleteLike(Long bNo, Principal principal) {
+		
+		String username = principal.getName();
+		boardRepository.deleteLike(bNo, username);
+		
+		return "success";
+	}
+
 	
 
 }

@@ -18,12 +18,17 @@
 	작성자 : [[${content.member.nickname}]] <br>
 	작성일 : [[${content.bRegdate}]] <br>
 	조회수 : [[${content.bViewcnt}]] <br>
+	<div class="likeArea">
+		<div class="likeBtns"></div>
+	</div>
 	
 	<div class="content_ared">
 		<!-- 이미지 및 파일 바꿔주기위한 과정 -->
 		<input type="hidden" name="content1" id="content1" th:value="${content.bContent}">
 		<div id="content2"></div>
 	</div>
+	
+	
 	
 	<a href="/board/modify/" th:attrappend="href=${content.bNo}" id="modify_btn" 
 		th:if="${content.member.username == #authentication.name}">수정</a>
@@ -98,12 +103,14 @@
 
 
 <script>
+	
+	let bNo = $("#bNo").val();
 
     $(function(){
         var content1 = $("#content1").val();
         $("#content2").html(content1);
         
-        var bNo = $("#bNo").val();
+        //var bNo = $("#bNo").val();
 
         $("#delete_btn").on("click", function(e){
         	e.preventDefault();
@@ -122,6 +129,61 @@
         });
         
     })
+    
+    
+    let likeBtn = "<img src='/image/board/heart_icon.png' class='likeBtn'>";
+    let unlikeBtn = "<img src='/image/board/heart_red_icon.png' class='unlikeBtn'>";
+    
+    $(document).ready(function(){
+    	
+    	
+    	// 게시물 좋아요 조회
+    	$.ajax({
+    		url: "/board/likes/" + bNo,
+    		success: function(result){
+    			
+    			if(result == "true"){
+    				$(".likeBtns").html(unlikeBtn);
+    				
+    			}else{
+    				$(".likeBtns").html(likeBtn);
+    			}
+    			
+    		}, 
+    		error: function(request){
+    			alert("에러");
+				alert("code:"+request.status);
+    		}
+    		
+    	});
+    	
+    	
+    	$(document).on("click", ".likeBtn", function(){
+    		var data = {
+    				bNo : bNo
+    		}
+    		
+    		$.ajax({
+    			url: "/board/likes",
+    			type: "POST",
+    			data: data,
+    			success: function(result){
+    				
+    				
+    				
+    			},
+    			error: function(){
+    				
+    			}
+    			
+    			
+    		});
+    		
+    	});
+    	
+    	
+    	
+    });
     
     
     

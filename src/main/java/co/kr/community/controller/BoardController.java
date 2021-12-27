@@ -112,7 +112,35 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
+	// 게시물 좋아요 조회
+	@GetMapping(value = "/board/likes/{bNo}")
+	@ResponseBody
+	public String likesCheck(@PathVariable("bNo") Long bNo, Principal principal) {
+		System.out.println("bNo ======================> " + bNo);
+		
+		
+		return boardService.likesCheck(bNo, principal);
+	}
 	
+	// 게시물 좋아요 설정
+	@PostMapping(value = "/board/likes")
+	@ResponseBody
+	public String insertLike(Long bNo, Principal principal) {
+		System.out.println("insertlike ======================> " + bNo);
+		
+		
+		return boardService.insertLike(bNo, principal);
+	}
+	
+	// 게시물 좋아요 해제
+	@PostMapping(value = "/board/likes")
+	@ResponseBody
+	public String deleteLike(Long bNo, Principal principal) {
+		System.out.println("deletelike ======================> " + bNo);
+		
+		
+		return boardService.deleteLike(bNo, principal);
+	}
 	
 	// 썸머 노트 file 컨트롤러
 //	@RequestMapping(value = "/board/uploadSummernoteImageFile", method = RequestMethod.POST, produces = "application/json")

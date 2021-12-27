@@ -73,5 +73,6 @@ public class Board {
 	@OneToMany(mappedBy = "board")
 	private List<Comment> comments = new ArrayList<>();
 	
-	
+	@OneToMany(mappedBy = "board")
+	private List<Likes> likes = new ArrayList<>();
 }

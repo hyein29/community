@@ -32,4 +32,13 @@ public interface BoardService {
 	// 게시물 삭제
 	void delete(Long bNo);
 	
+	// 게시물 좋아요 조회
+	String likesCheck(Long bNo, Principal principal);
+	
+	// 게시물 좋아요 설정
+	String insertLike(Long bNo, Principal principal);
+	
+	// 게시물 좋아요 해제
+	String deleteLike(Long bNo, Principal principal);
+	
 }

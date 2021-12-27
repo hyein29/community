@@ -35,8 +35,5 @@ public class Role {
     @JsonIgnore
     private List<Member> members;
     
-//    public String getName() {
-//    	
-//    	return name;
-//    }
+
 }

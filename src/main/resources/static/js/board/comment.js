@@ -1,4 +1,64 @@
-$(document).ready(function(){
+/* $(document).ready(function(){
+	
+	var bNo = ("#bNo").val();
+
+	
+	$.ajax({
+		url: "/comment/" + bNo,
+		type: "GET",
+		success: function(data){
+			
+			let tableElement = "<tr>";
+			
+			if(data.length < 1){
+				
+				tableElement += "<td>등록된 댓글이 없습니다.<td></tr>";
+				
+			}else{
+				
+				$.each(data, function(i){
+					
+					var cmNo = data[i].cmNo;
+					var cmGrp = data[i].cmGrp;
+					var cmSeq = data[i].cmSeq;
+					var cmContent = data[i].cmContent;
+					var cmNickname = "nickname";
+					var cmRegdate = data[i].cmRegdate; 
+					
+					if(cmSeq == 1){
+						tableElement += "<td>"
+									 	+ "<div><b>"+cmNickname+"</b>"
+										+ "<span style='font-size: small'>"+cmRegdate+"</span>"
+										+ "<button class='replyBtn' id="+cmGrp+">답글</button>"
+										+ "<button class='deleteReplyBtn' id="+cmNo+" data-grp="+cmGrp+" data-seq="+cmSeq+">삭제</button><div>"
+										+ "<div>"+cmContent+"</div></td></tr>";
+					}else{
+						tableElement += "<td style='padding-left: 40px;'>"
+									 	+ "<div><b>"+cmNickname+"</b>"
+										+ "<span style='font-size: small'>"+cmRegdate+"</span>"
+										+ "<button class='deleteReplyBtn' id="+cmNo+" data-grp="+cmGrp+" data-seq="+cmSeq+">삭제</button><div>"
+										+ "<div>"+cmContent+"</div></td></tr>";
+					}
+					
+				}) // each end
+				
+				$(".cmtListTable").append(tableElement);
+			
+			} // else end
+		
+		}, // ajax success end
+		
+		error: function(request){
+			alert("에러");
+			alert("code: "+request.status);
+			
+		} // ajax error end
+		
+	}); // ajax end
+	
+	
+}); */
+
 
 	// 댓글 등록
 	$("#insertCmtBtn").click(function() {
@@ -47,7 +107,6 @@ $(document).ready(function(){
 		// 답글 버튼 클릭 시 cmGrp에 해당 댓글 grp값 담기
 		cmGrp = $(this).attr("id");
 		
-		alert(cmGrp);
 		
 		var replyInput = "<tr class='replyInput'>"
 						+ "<td colspan='6'><div style='margin-left: 40px'>"
@@ -142,5 +201,3 @@ $(document).ready(function(){
 	})
 	
 
-
-})

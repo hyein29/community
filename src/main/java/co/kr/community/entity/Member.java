@@ -63,5 +63,12 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "role_no")) // 반대 엔티티(role)를 참조하는 외래키 (member_role 테이블의 role_no)
     private List<Role> roles = new ArrayList<>();
 	
-
+	@OneToMany(mappedBy = "member")
+	private List<Likes> boards = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
+	private List<Comment> comments = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "member")
+	private List<Likes> likes = new ArrayList<>();
 }

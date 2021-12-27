@@ -13,7 +13,16 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	
 	@Transactional
 	@Modifying
-    @Query("update Board set bViewcnt = bViewcnt + 1 where bNo = :bNo")
+    @Query(value = "update Board set b_viewcnt = b_viewcnt + 1 where b_no = :bNo", nativeQuery = true)
     void updateViewCnt(Long bNo);
+	
+	@Query(value = "select count(l_no) from likes where b_no = :bNo and username = :username", nativeQuery = true)
+	Integer likesCheck(Long bNo, String username);
+	
+	
+	void insertLike(Long bNo, String username);
+	
+	
+	void deleteLike(Long bNo, String username);
 
 }
