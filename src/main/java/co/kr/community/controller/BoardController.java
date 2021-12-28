@@ -122,6 +122,15 @@ public class BoardController {
 		return boardService.likesCheck(bNo, principal);
 	}
 	
+	// 게시물 좋아요 수 조회
+	@GetMapping(value = "/board/likesCnt/{bNo}")
+	@ResponseBody
+	public String likesCntCheck(@PathVariable("bNo") Long bNo) {
+		System.out.println("bNo ======================> " + bNo);
+		
+		return boardService.likesCntCheck(bNo);
+	}
+	
 	// 게시물 좋아요 설정
 	@PostMapping(value = "/board/likes")
 	@ResponseBody
@@ -133,7 +142,7 @@ public class BoardController {
 	}
 	
 	// 게시물 좋아요 해제
-	@PostMapping(value = "/board/likes")
+	@DeleteMapping(value = "/board/likes")
 	@ResponseBody
 	public String deleteLike(Long bNo, Principal principal) {
 		System.out.println("deletelike ======================> " + bNo);

@@ -19,10 +19,20 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query(value = "select count(l_no) from likes where b_no = :bNo and username = :username", nativeQuery = true)
 	Integer likesCheck(Long bNo, String username);
 	
-	
+	@Query(value = "select count(l_no) from likes where b_no = :bNo", nativeQuery = true)
+	Integer likesCntCheck(Long bNo);
+		
+	@Transactional
+	@Modifying
+	@Query(value = "insert likes(b_no, username) values(:bNo, :username)", nativeQuery = true)
 	void insertLike(Long bNo, String username);
 	
-	
+	@Transactional
+	@Modifying
+	@Query(value = "delete from likes where b_no = :bNo and username = :username", nativeQuery = true)
 	void deleteLike(Long bNo, String username);
+	
+	
+	
 
 }

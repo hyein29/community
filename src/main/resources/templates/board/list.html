@@ -19,6 +19,7 @@
 			<td>작성자</td>
 			<td>작성일</td>
 			<td>조회</td>
+			<td>좋아요</td>
 		</tr>
 		
 		<tr th:each="board : ${boards}">
@@ -29,6 +30,7 @@
 			<td th:text="${board.member.nickname}"></td>
 			<td th:text="${board.bRegdate}"></td>
 			<td th:text="${board.bViewcnt}"></td>
+			<td th:text="${board.likes.size()}"></td>
 		</tr>
 	</table>
 	

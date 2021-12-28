@@ -77,6 +77,18 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 	}
+	
+	@Override
+	public String likesCntCheck(Long bNo) {
+		
+		if(boardRepository.likesCntCheck(bNo) != null) {
+			String likesCnt = Integer.toString(boardRepository.likesCntCheck(bNo));
+			return likesCnt;
+		}else {
+			return "0";
+		}
+		
+	}
 
 	@Override
 	public String insertLike(Long bNo, Principal principal) {

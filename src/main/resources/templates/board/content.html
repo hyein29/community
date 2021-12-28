@@ -20,6 +20,7 @@
 	조회수 : [[${content.bViewcnt}]] <br>
 	<div class="likeArea">
 		<div class="likeBtns"></div>
+		<div><b class="likesCnt"></b></div>
 	</div>
 	
 	<div class="content_ared">
@@ -136,28 +137,14 @@
     
     $(document).ready(function(){
     	
+    	// 좋아요 여부 ajax로 가져오기
+    	likesAjax();
     	
-    	// 게시물 좋아요 조회
-    	$.ajax({
-    		url: "/board/likes/" + bNo,
-    		success: function(result){
-    			
-    			if(result == "true"){
-    				$(".likeBtns").html(unlikeBtn);
-    				
-    			}else{
-    				$(".likeBtns").html(likeBtn);
-    			}
-    			
-    		}, 
-    		error: function(request){
-    			alert("에러");
-				alert("code:"+request.status);
-    		}
-    		
-    	});
+    	// 좋아요 수 ajax로 가져오기
+    	likesCntAjax();
     	
     	
+    	//좋아요 버튼 클릭 시
     	$(document).on("click", ".likeBtn", function(){
     		var data = {
     				bNo : bNo
@@ -168,15 +155,32 @@
     			type: "POST",
     			data: data,
     			success: function(result){
-    				
-    				
-    				
+    				likesAjax();
     			},
     			error: function(){
-    				
+    				alert('error');
     			}
     			
-    			
+    		});
+    		
+    	});
+    	
+    	// 좋아요 취소 시
+    	$(document).on("click", ".unlikeBtn", function(){
+    		var data = {
+    				bNo : bNo
+    		}
+    		
+    		$.ajax({
+    			url: "/board/likes",
+    			type: "DELETE",
+    			data: data,
+    			success: function(result){
+    				likesAjax();
+    			},
+    			error: function(){
+    				alert('error');
+    			}
     		});
     		
     	});
@@ -186,7 +190,49 @@
     });
     
     
-    
+ 	// 게시물 좋아요 여부 조회
+    function likesAjax(){
+    	
+    	$.ajax({
+    		url: "/board/likes/" + bNo,
+    		success: function(result){
+    			
+    			if(result == "true"){
+    				$(".likeBtns").html(unlikeBtn);
+    				
+    			}else{
+    				$(".likeBtns").html(likeBtn);
+    			}
+    			likesCntAjax();
+    			
+    		}, 
+    		error: function(request){
+    			alert("에러");
+				alert("code:"+request.status);
+    		}
+    		
+    	});
+    }
+ 	
+ 	// 게시물 좋아요 수 조회
+ 	function likesCntAjax(){
+    	
+    	$.ajax({
+    		url: "/board/likesCnt/" + bNo,
+    		success: function(result){
+    			
+    			var likesCnt = "<b class='likesCnt'>"+result+"</b>";
+    			
+    			$(".likesCnt").html(likesCnt);
+    			
+    		}, 
+    		error: function(request){
+    			alert("에러");
+				alert("code:"+request.status);
+    		}
+    		
+    	});
+    }
     
     
 

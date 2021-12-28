@@ -13,3 +13,7 @@
 .likeBtn:hover{
 	cursor: pointer;
 }
+
+.unlikeBtn:hover{
+	cursor: pointer;
+}

@@ -35,6 +35,9 @@ public interface BoardService {
 	// 게시물 좋아요 조회
 	String likesCheck(Long bNo, Principal principal);
 	
+	// 게시물 좋아요 조회
+	String likesCntCheck(Long bNo);
+	
 	// 게시물 좋아요 설정
 	String insertLike(Long bNo, Principal principal);
 	
