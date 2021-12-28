@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원 정보 수정</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/member/modify.css"> 
+
+</head>
+<body>
+	
+    <div class="content">
+	    <form th:action="@{/member/mypage/modify}" method="post" class="modForm" onsubmit="return false;">
+	    	<input type="hidden" name="_method" value="put">
+	    
+	    	<div class="wrapAllDivs">
+	    	
+		    	<!-- 아이디 -->
+		    	<div class="usernameDiv wrapDiv">
+		    		<div class="div1">아이디</div>
+		    		<div class="div2" th:text="${myInfo.username}"></div>
+		    		<input name="username" type="hidden" class="username" th:value="${myInfo.username}">
+		    	</div>
+		    	
+		    	<!-- 비밀번호 -->
+		    	<div class="passwordDiv wrapDiv">
+		    		<div class="div1">비밀번호</div>
+		    		<div class="div2">
+		    			<input type="password" name="password" class="password" maxlength="16">
+		    			<div class="messageArea"></div>
+		    		</div>
+		    	</div>
+		    	
+		    	<!-- 비밀번호 확인 -->
+		    	<div class="password2Div wrapDiv">
+		    		<div class="div1">비밀번호 확인</div>
+		    		<div class="div2">
+		    			<input type="password" name="password2" class="password2" maxlength="16">
+		    			<div class="messageArea"></div>
+		    		</div>
+		    	</div>
+		    	
+		    	<!-- 닉네임 -->
+		    	<div class="nicknameDiv wrapDiv">
+		    		<div class="div1">닉네임</div>
+		    		<div class="div2">
+		    			<input name="nickname" class="nickname" th:value="${myInfo.nickname}" autocomplete="off" maxlength="10">
+		    			<input type="hidden" class="oldNickname" th:value="${myInfo.nickname}">
+		    			<div class="messageArea"></div>
+		    		</div>
+		    	</div>
+		    	
+		    	<!-- 이메일 -->
+		    	<div class="emailDiv wrapDiv">
+		    		<div class="div1">이메일</div>
+		    		<div class="div2" th:text="${myInfo.email}"></div>
+		    		<input name="email" type="hidden" th:value="${myInfo.email}">
+		    	</div>
+		    	
+		    	<div class="submitBtnDiv wrapDiv">
+		    		<button class="submitBtn">회원 정보 수정</button>
+		    	</div>
+		    	
+	    	</div>
+	    
+	    </form>	
+	    
+	
+	</div>
+	
+	
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	
+</body>
+
+<script>
+
+	// 비번, 이메일만 변경
+
+	let code = ""; // 이메일 전송 인증번호 저장을 위한 변수
+	let oldNickname = $(".oldNickname").val();
+	
+	// 유효성 검사 통과 유무 변수
+	let passwordCheck = false;      // 비밀번호
+	let password2Check = false;     // 비밀번호 확인
+	let passwordMatchCheck = false; // 비밀번호 일치 여부
+	let newPasswordCheck = false;   // 입력한 비밀번호와 기존 비밀번호 비교
+	let nicknameCheck = false;      // 닉네임
+	let nicknameDupCheck = false;   // 닉네임 중복 검사
+	
+
+
+	/* 유효성 검사 후 출력 메세지 */
+	// 필수 입력 항목
+	let requiredField = "<div class='errorMsg requiredField'>필수 입력 항목입니다.</div>";
+	
+	// 공백 입력 시
+	let spaceError = "<div class='errorMsg spaceError'>공백은 사용할 수 없습니다.</div>";
+
+	// password
+	let passwordError1 = "<div class='errorMsg passwordError1'>비밀번호는 영문, 숫자, 특수문자를 포함하여 8자 이상이어야 합니다.</div>";
+	let passwordError2 = "<div class='errorMsg passwordError2'>비밀번호가 일치하지 않습니다.</div>";
+	let passwordError3 = "<div class='errorMsg passwordError3'>기존 비밀번호와 다른 비밀번호를 입력해주세요.</div>";
+	let passwordError4 = "<div class='errorMsg passwordError4'>비밀번호 확인을 입력해주세요.</div>";
+	
+	// nickname
+	let nicknameCorrect = "<div class='correctMsg nicknameCorrect'>사용 가능한 닉네임입니다.</div>";
+	let nicknameError1 = "<div class='errorMsg nicknameError1'>2자 이상 입력해주세요.</div>";
+	let nicknameError2 = "<div class='errorMsg nicknameError2'>닉네임이 이미 존재합니다.</div>";
+	
+	
+	
+	$(document).ready(function(){
+		
+		
+		$(".submitBtn").on("click", function(){
+			
+			if($(".password").val().length == 0){
+				passwordCheck = true;
+				password2Check = true;
+				passwordMatchCheck = true;
+				newPasswordCheck = true;
+								
+			}
+			if($(".nickname").val().length == 0 || $(".nickname").val() == oldNickname){
+				nicknameCheck = true;
+				nicknameDupCheck = true;
+			}
+			
+			alert('passwordCheck=' + passwordCheck
+					 + ', password2Check=' + password2Check
+					 + ', passwordMatchCheck=' + passwordMatchCheck
+					 + ', newPasswordCheck' + newPasswordCheck
+					 + ', nicknameCheck=' + nicknameCheck
+					 + ', nicknameDupCheck=' + nicknameDupCheck
+					 );
+			
+			
+			
+			// 최종 유효성 검사(모든 check 값들이 true일 경우)
+            if (passwordCheck && password2Check && passwordMatchCheck && newPasswordCheck
+            	&& nicknameCheck && nicknameDupCheck) {
+                
+            	if (confirm("회원 정보를 수정하시겠습니까?")) {
+                    alert("수정이 완료되었습니다.");
+                    $(".modForm").attr("onsubmit", "return true;");
+                    $(".modForm").attr("action", "/member/mypage/modify");
+                    $(".modForm").submit();
+                } else {
+                    alert("취소되었습니다.");
+                }
+                
+            }else{
+            	
+            	if(!passwordMatchCheck){
+            		$(".password2Div .messageArea").html(passwordError4);
+            		$(".password2").focus();
+            		return;
+            	}
+            }
+			
+			
+		});
+		
+
+		// 비밀번호 유효성 검사
+	    $(".password").on("propertychange change keyup paste input", function(){
+	    	var password = $(this).val();
+	    	var password2 = $(".password2").val();
+	    	var username = $(".username").val();
+	    	var data = {
+	    			password : password,
+	    			username : username
+	    	}
+	    	
+	    	
+	    	if(passwordPatternCheck(password) && !spaceCheck(password)){ // 비밀번호가 8~16자이고 영+숫+특문일 경우
+	    		
+	    		
+	    		$.ajax({
+    				url: "/member/register/passwordCheck",
+    				type: "POST",
+    				data: data,
+    				success: function(result) {
+    					
+    					if(result != "true") { // 기존 비밀번호와 일치하지 않는 경우(해당 비밀번호 사용 가능)
+    						$(".passwordDiv .messageArea").html("");
+    						newPasswordCheck = true;
+    						passwordCheck = true;
+    						return;
+    						
+    					}else{
+    						$(".passwordDiv .messageArea").html(passwordError3);
+    						newPasswordCheck = false;
+    						passwordCheck = false;
+    						return;
+    					}
+    				}
+    			});
+	    		
+	    		
+	    	}else{
+	    		
+	    		if(spaceCheck(password)){ // 공백이 존재할 경우
+		    		$(".passwordDiv .messageArea").html(spaceError);
+	    		
+	    		}else{
+		    		$(".passwordDiv .messageArea").html(passwordError1);
+	    		}
+	    		passwordCheck = false;
+	    		passwordMatchCheck = false;
+	    	}
+	    	
+	    });
+		
+		// 비밀번호 확인 유효성 검사
+		$(".password2").on("propertychange change keyup paste input", function(){
+			var password = $(".password").val();
+	    	var password2 = $(this).val();
+	    	
+	    	// 비밀번호 입력 조건을 충족하고 비밀번호와 비밀번호 확인이 일치할 경우
+	    	if(password == password2 && passwordPatternCheck(password2) && !spaceCheck(password2)){
+	    		
+	    		$(".password2Div .messageArea").html(""); // 에러 메세지 제거
+	    		password2Check = true;
+	    		passwordMatchCheck = true;
+		    		
+	    		
+	    	}else{
+	    		
+	    		if(password != password2){ // 비밀번호와 비밀번호 확인이 일치하지 않을 경우
+	    			
+	    			if(passwordCheck == false) {
+	    				$(".password2Div .messageArea").html("");
+	    			}else{
+	    				$(".password2Div .messageArea").html(passwordError2);
+	    			}
+	    			
+	    			password2Check = true;
+		    		passwordMatchCheck = false;
+		    		
+		    	}else{ // 비밀번호 확인이 일치하지만 입력 조건 충족 안됐을 경우
+		    		$(".password2Div .messageArea").html(""); // 에러 메세지 제거
+		    		password2Check = false;
+		    		passwordMatchCheck = true;
+		    	}
+	    		
+	    	}
+	    	
+		});
+				
+		
+	 	// 닉네임 중복 검사
+	    $(".nickname").on("propertychange change keyup paste input", function(){
+	    	var nickname = $(this).val();
+	    	var data = {
+	    			nickname : nickname
+	    	}
+	    	
+	    	if(nickname.length > 1 && nickname.length < 11 && !spaceCheck(nickname)){  // 닉네임에 공백이 없고 2~10자일 때
+	    		
+    			nicknameCheck = true;
+    			
+    			$.ajax({
+    				url: "/member/register/nicknameCheck",
+    				type: "POST",
+    				data: data,
+    				success: function(result) {
+    					
+    					if(result != "exist") {
+    						$(".nicknameDiv .messageArea").html(nicknameCorrect);
+    						nicknameDupCheck = true;
+    						return;
+    						
+    					}else{
+    						
+    						if(nickname == oldNickname){
+    							$(".nicknameDiv .messageArea").html("");
+    							nicknameDupCheck = true;
+    						}else{
+    							$(".nicknameDiv .messageArea").html(nicknameError2);
+        						nicknameDupCheck = false;
+        						return;
+    						}
+    						
+    					}
+    				}
+    			});
+	    			
+	    	
+	    	}else{
+	    		
+	    		if(spaceCheck(nickname)){ // 공백이 존재할 경우
+	    			$(".nicknameDiv .messageArea").html(spaceError);
+	    		
+	    		}else if(nickname.length == 0){ // 아무 것도 입력하지 않았을 경우
+	    			$(".nicknameDiv .messageArea").html(requiredField);
+	    		
+	    		}else{ // 닉네임이 2자 미만일 경우
+	    			$(".nicknameDiv .messageArea").html(nicknameError1);
+	    		
+	    		}
+	    		nicknameCheck = false;
+	    		nicknameDupCheck = false;
+	    	}
+	    	
+	    });
+		
+		
+		
+		// 공백 검사(공백이 존재하면 true)
+		function spaceCheck(str) { 
+			if(str.search(/\s/) != -1) { 
+				return true; 
+			} else { 
+				return false; 
+			} 
+		}
+		
+		// 비밀번호 패턴 체크(영문, 숫자, 특수문자 포함여부 체크, true일 경우 사용가능한 비밀번호)
+     	function passwordPatternCheck(str) { 
+     		var pattern1 = /[0-9]/; // 숫자 
+     		var pattern2 = /[a-zA-Z]/; // 영문
+     		var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 
+     		
+     		if(!pattern1.test(str) || !pattern2.test(str) || !pattern3.test(str) || str.length < 8 || str.length > 16) { 
+     			return false;
+     		} else { 
+     			return true; 
+     		} 
+     	}
+		
+     	// 닉네임 입력 시 특수문자 입력 불가
+        $('.nickname').on("propertychange change keyup paste input", function(){
+            var re = /[ \{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+            var temp = $(this).val();
+            
+            if (re.test(temp)) { // 특수문자가 포함되면 삭제하고 특수문자 입력 전 값으로 다시 셋팅
+                $(this).val(temp.replace(re, ""));
+            }
+        });
+	
+	
+	
+		
+	
+	});
+
+
+</script>
+
+</html>

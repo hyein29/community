@@ -1,12 +1,16 @@
 package co.kr.community.controller;
 
+import java.security.Principal;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import co.kr.community.entity.Member;
 import co.kr.community.service.MemberService;
@@ -40,5 +44,31 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 마이 페이지
+	@GetMapping("/mypage")
+	public ModelAndView mypage(Principal principal) {
+		String username = principal.getName();
+		ModelAndView mv = new ModelAndView("member/mypage");
+		Optional<Member> myInfo = memberService.getMyInfo(username);
+		mv.addObject("myInfo", myInfo.get());
+		return mv;
+	}
+	
+	// 회원정보 수정 페이지
+	@PostMapping("/mypage/modify")
+	public ModelAndView modifyPage(Principal principal) {
+		String username = principal.getName();
+		ModelAndView mv = new ModelAndView("member/modify");
+		Optional<Member> myInfo = memberService.getMyInfo(username);
+		mv.addObject("myInfo", myInfo.get());
+		return mv;
+	}
+	
+	// 회원정보 수정
+	@PutMapping("/mypage/modify")
+	public String modify(Member member) {
+		memberService.update(member);
+		return "redirect:/member/mypage/modify";
+	}
 
 }

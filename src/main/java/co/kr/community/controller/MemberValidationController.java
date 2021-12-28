@@ -55,5 +55,14 @@ public class MemberValidationController {
 		System.out.println("================sendEmail 진입===============");
 		return memberService.sendCode(email);
 	}
+	
+	// 회원 정보 수정 시 입력한 비밀번호와 기존 비밀번호 비교
+	@PostMapping("/register/passwordCheck")
+	@ResponseBody
+	public String passwordCheck(String password, String username) {
+		System.out.println("=======passwordCheck 진입==========");
+		
+		return memberService.passwordCheck(password, username);
+	}
 
 }

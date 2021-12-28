@@ -1,6 +1,8 @@
 package co.kr.community.service;
 
+import java.security.Principal;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.mail.Message;
@@ -52,7 +54,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberRepository.save(member);
 	}
+	
+	// 내 정보 조회
+	@Override
+	public Optional<Member> getMyInfo(String username) {
+		return memberRepository.findById(username);
+	}
 
+	
 	// 회원 목록 조회(페이징)
 	@Override
 	public Page<Member> getMemberList(Pageable pageable) {
@@ -133,6 +142,37 @@ public class MemberServiceImpl implements MemberService {
 		return num;
 	}
 
+	
+	/* 회원 정보 수정 */
+	// 회원 정보 수정 시 입력한 비밀번호와 기존 비밀번호 비교
+	@Override
+	public String passwordCheck(String password, String username) {
+		
+		String oldPassword = memberRepository.findById(username).get().getPassword();
+		
+		System.out.println(oldPassword);
+		
+		if(passwordEncoder.matches(password, oldPassword)) {
+			return "true"; // 일치하는 경우(해당 비밀번호 사용 불가)
+		}else {
+			return "false"; // 일치하지 않는 경우
+		}
+		
+	}
+
+	// 회원 정보 수정
+	@Override
+	public Member update(Member member) {
+		
+		// 비밀번호 암호화
+		String encodedPassword = passwordEncoder.encode(member.getPassword()); 
+		member.setPassword(encodedPassword);
+		
+		return memberRepository.save(member);
+	}
+	
+
+	
 	
 	
 	
