@@ -5,13 +5,14 @@
 <title>회원가입</title>
 
     <!-- css -->
-    <link rel="stylesheet" href="/css/member/register.css">
+    <!-- <link rel="stylesheet" href="/css/member/mypage.css"> -->
 
 </head>
 <body>
 	
     <div class="content">
 	    <form th:action="@{/member/register}" method="post" class="regForm" onsubmit="return false;">
+	    	<input type="hidden" name="_method" value="put">
 	    
 	    	<!-- 아이디 -->
 	    	<div class="usernameDiv">
@@ -36,6 +37,13 @@
 	    		<div class="messageArea"></div>
 	    	</div>
 	    
+	    	<!-- 이름 -->
+	    	<div class="nameDiv">
+	    		<label>이름</label>
+	    		<input name="name" class="name" placeholder="이름" autocomplete="off" maxlength="10">
+	    		<div class="messageArea"></div>
+	    	</div>
+	    	
 	    	<!-- 닉네임 -->
 	    	<div class="nicknameDiv">
 	    		<label>닉네임</label>
@@ -72,6 +80,8 @@
 
 <script>
 
+	// 비번, 이메일만 변경
+
 	let code = ""; // 이메일 전송 인증번호 저장을 위한 변수
 	
 	// 유효성 검사 통과 유무 변수
@@ -102,7 +112,10 @@
 	// password
 	let passwordError1 = "<div class='errorMsg passwordError1'>비밀번호는 영문, 숫자, 특수문자를 포함하여 8자 이상이어야 합니다.</div>";
 	let passwordError2 = "<div class='errorMsg passwordError2'>비밀번호가 일치하지 않습니다.</div>";
-		
+	
+	// name
+	let nameError = "<div class='errorMsg nameError'>이름을 2자 이상 입력해주세요.</div>";
+	
 	// nickname
 	let nicknameCorrect = "<div class='correctMsg nicknameCorrect'>사용 가능한 닉네임입니다.</div>";
 	let nicknameError1 = "<div class='errorMsg nicknameError1'>2자 이상 입력해주세요.</div>";
@@ -131,6 +144,7 @@
 					 + ', passwordCheck=' + passwordCheck
 					 + ', password2Check=' + password2Check
 					 + ', passwordMatchCheck=' + passwordMatchCheck
+					 + ', nameCheck=' + nameCheck
 					 + ', nicknameDupCheck=' + nicknameDupCheck
 					 + ', emailCheck=' + emailCheck
 					 + ', emailDupCheck=' + emailDupCheck
@@ -139,7 +153,7 @@
 			
 			// 최종 유효성 검사(모든 check 값들이 true일 경우)
             if (usernameCheck && usernameDupCheck && passwordCheck && password2Check && passwordMatchCheck 
-            	&& nicknameCheck && nicknameDupCheck && emailCheck && emailDupCheck && emailCodeCheck) {
+            	&& nameCheck && nicknameCheck && nicknameDupCheck && emailCheck && emailDupCheck && emailCodeCheck) {
                 
             	if (confirm("해당정보로 회원가입을 진행하시겠습니까?")) {
                     alert("회원가입이 완료되었습니다.");
@@ -270,7 +284,28 @@
 	    	}
 	    	
 		});
-	
+		
+		// 이름 유효성 검사
+		$(".name").on("propertychange change keyup paste input", function(){
+			var name = $(this).val();
+			
+			if(name.length > 1 && name.length < 11) {
+				$(".nameDiv .messageArea").html("");
+				nameCheck = true;
+				
+			}else{
+				if(name.length == 0){ // 아무 것도 입력하지 않았을 경우
+					$(".nameDiv .messageArea").html(requiredField);
+				
+				}else if(name.length < 2){ // 이름이 2자 미만일 경우
+					$(".nameDiv .messageArea").html(nameError1);
+				}
+				nameCheck = false;
+			}
+		
+		});
+		
+		
 	 	// 닉네임 중복 검사
 	    $(".nickname").on("propertychange change keyup paste input", function(){
 	    	var nickname = $(this).val();
@@ -462,7 +497,16 @@
             }
         });
             
-     	
+     	// 이름 입력 시 영문, 슷자, 특수문자 입력 불가
+        $('.name').on("propertychange change keyup paste input", function(){
+            var re = /[a-z0-9]|[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=123456789]/gi;
+            var temp = $(this).val();
+            
+            if (re.test(temp)) { // 영문, 슷자, 특수문자가 포함되면 삭제하고 이전 값으로 다시 셋팅
+                $(this).val(temp.replace(re, ""));
+            }
+        });
+        
      	// 닉네임 입력 시 특수문자 입력 불가
         $('.nickname').on("propertychange change keyup paste input", function(){
             var re = /[ \{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;

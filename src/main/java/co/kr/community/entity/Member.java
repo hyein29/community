@@ -39,9 +39,7 @@ public class Member {
 	
 	@Size(min = 4, message = "비밀번호를 4자 이상 입력해주세요.")
 	private String password;
-	
-	private String name;
-	
+		
 	private String nickname;
 	
 	private String email;
