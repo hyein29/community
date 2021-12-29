@@ -55,7 +55,7 @@ public class MemberController {
 	}
 	
 	// 회원정보 수정 페이지
-	@PostMapping("/mypage/modify")
+	@GetMapping("/mypage/modify")
 	public ModelAndView modifyPage(Principal principal) {
 		String username = principal.getName();
 		ModelAndView mv = new ModelAndView("member/modify");
