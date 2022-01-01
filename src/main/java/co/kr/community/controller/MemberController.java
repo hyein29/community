@@ -31,13 +31,13 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	// 회원가입 페이지
+	// 회원 가입 페이지
 	@GetMapping("/register")
 	public String registerPage() {
 		return "member/register";
 	}
 		
-	// 회원가입 처리
+	// 회원 가입 처리
 	@PostMapping("/register")
 	public String register(Member member) {
 		memberService.insert(member);
@@ -54,7 +54,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	// 회원정보 수정 페이지
+	// 회원 정보 수정 페이지
 	@GetMapping("/mypage/modify")
 	public ModelAndView modifyPage(Principal principal) {
 		String username = principal.getName();
@@ -64,7 +64,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	// 회원정보 수정
+	// 회원 정보 수정
 	@PutMapping("/mypage/modify")
 	public String modify(Member member) {
 		memberService.update(member);

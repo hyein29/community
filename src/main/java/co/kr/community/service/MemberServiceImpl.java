@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	JavaMailSender javaMailSender; // 이메일 전송 bean
 
-	// 회원가입
+	// 회원 가입
 	@Override
 	public Member insert(Member member) {
 		
@@ -61,6 +61,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberRepository.findById(username);
 	}
 
+	// 회원 탈퇴
+	@Override
+	public void delete(String username) {
+		memberRepository.deleteById(username);
+	}
 	
 	// 회원 목록 조회(페이징)
 	@Override
@@ -170,6 +175,8 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberRepository.save(member);
 	}
+
+	
 	
 
 	

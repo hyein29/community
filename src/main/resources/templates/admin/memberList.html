@@ -8,7 +8,24 @@
 <body>
 	<h1>회원 관리</h1>
 	
-	<div>총 <b th:text="${members.getTotalElements()}"></b>명</div>
+	<div>
+	
+		<div>총 <b th:text="${members.getTotalElements()}"></b>명</div>
+		
+		<div></div>
+		
+		<div>
+			<form action="">
+				<select class="">
+					<option value="all" selected="selected">전체</option>
+					<option value="admin">관리자</option>
+					<option value="member">일반회원</option>
+				</select>
+			</form>
+		</div>
+	
+	</div>
+
 	
  	<table border="1">
 		<tr>
@@ -23,24 +40,33 @@
 			<td>권한</td>
 		</tr>
 		
-		<tr th:each="member, i : ${members}">
-			<td th:id="${member.username}">
+		<tr th:each="member, i : ${members}" class="allList">
+			<td th:if="${member.username == 'admin' || member.username == #authentication.name}" th:id="${member.username}">
+				<input type="checkbox" disabled="disabled">
+			</td>
+			<td th:unless="${member.username == 'admin' || member.username == #authentication.name}" th:id="${member.username}">
 				<input type="checkbox" class="chkBox">
 			</td>
+			
 			<td th:text="${i.count}"></td>
 			<td th:text="${member.username}"></td>
 			<td th:text="${member.nickname}"></td>
 			<td th:text="${member.email}"></td>
 			<td th:text="${member.regDate}"></td>
-			<td th:if="${#lists.size(member.roles) == 1}" th:text="${member.roles.get(0).getName()}"></td>
-			<td th:if="${#lists.size(member.roles) != 1}" th:text="${member.roles.get(1).getName()}"></td>
+			<td th:if="${#lists.size(member.roles) == 1}" th:text="${member.roles.get(0).getName()}" data-auth="admin"></td>
+			<td th:unless="${#lists.size(member.roles) == 1}" th:text="${member.roles.get(1).getName()}" data-auth="member"></td>
 		</tr>
+		
 	</table>
 	
-	<form method="post" style="margin-top: 30px" id="deleteform">
+	<!-- <form method="post" style="margin-top: 30px" id="deleteform">
 		<input type="hidden" name="_method" value="delete">
 		<button id="deleteBtn">삭제</button>
-	</form>
+	</form> -->
+	
+	<br>
+	<button class="deleteBtn" value="delete">삭제</button>
+	<button class="modifyAuthBtn" value="auth">권한 변경</button>
 	
 	<a href="/">home</a>
 	
@@ -48,6 +74,106 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 <script src="/js/admin/memberList.js"></script>	
+
+<script>
+$(document).ready(function(){
+	
+	$("#checkAll").change(function(){
+		var chk = $(this).prop("checked");
+		
+		if(chk){
+			$(".chkBox").prop("checked", true);
+		}else{
+			$(".chkBox").prop("checked", false);
+		}
+	
+	});
+	
+	// 삭제 버튼 클릭 시
+	$(".deleteBtn").click(function(e){
+		e.preventDefault();
+		var cnt = $(".chkBox:checked").length;
+		var arr = new Array();
+		
+		$(".chkBox:checked").each(function(){
+			arr.push($(this).closest("td").attr("id"));
+		});
+		
+		if(cnt == 0){
+			alert("삭제할 회원을 선택해 주세요.");
+			return;
+		}else{
+			var data = {
+				arr : arr
+			}
+			
+			alert(arr + "을 삭제하시겠습니까?");
+
+			deleteAjax(data);
+		}
+	
+	});
+	
+	
+	// 권한 변경 버튼 클릭 시
+	$(".modifyAuthBtn").click(function(e){
+		e.preventDefault();
+		var cnt = $(".chkBox:checked").length;
+		var arr = new Array();
+		var auth = "";
+		
+		
+		
+		$(".chkBox:checked").each(function(){
+			arr.push($(this).closest("td").attr("id"));
+			auth = $(this).closest("td").attr("data-auth");
+		});
+		
+		if(cnt == 0){
+			alert("권한을 변경할 회원을 선택해 주세요.");
+			return;
+		}else{
+			var data = {
+				arr : arr
+			}
+			alert(auth);
+			alert(arr + "을 삭제하시겠습니까?");
+
+		}
+	
+	});
+	
+
+    function deleteAjax(data) {
+    	$.ajax({
+			url: "/admin/member",
+			type: "DELETE",
+			data: data,
+			success: function(result){
+				
+				if(result == "success"){
+					alert("삭제 성공");
+					location.href="/admin/member";
+				}else{
+					alert("삭제 실패");
+				}
+			},
+			error: function(request) {
+				alert("에러");
+				alert("code:" + request.status);
+			}
+		});
+    }
+    
+    
+    function modifyAuthAjax(data) {
+    	alert(data.size());
+    }
+
+
+});
+
+</script>
 	
 </body>
 </html>

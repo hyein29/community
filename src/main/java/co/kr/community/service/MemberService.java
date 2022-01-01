@@ -10,7 +10,7 @@ import co.kr.community.entity.Member;
 
 public interface MemberService {
 	
-	// 회원 등록
+	// 회원 가입
 	Member insert(Member member);
 	
 	// 내 정보 조회
@@ -18,6 +18,9 @@ public interface MemberService {
 	
 	// 회원 정보 수정
 	Member update(Member member);
+	
+	// 회원 탈퇴
+	void delete(String username);
 
 	/* 관리자 페이지 */	
 	// 회원 목록 조회

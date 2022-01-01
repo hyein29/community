@@ -1,7 +1,6 @@
 package co.kr.community.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +36,12 @@ public class AdminController {
 	@DeleteMapping("/member")
 	@ResponseBody
 	public String delete(@RequestParam(value="arr[]") List<String> arr) {
-		System.out.println(arr);
+		
+		for(int i=0; i<arr.size(); i++) {
+			String username = arr.get(i);
+			memberService.delete(username);	
+//			System.out.println("username==============>"+username);
+		}
 		
 		return "success";
 	}

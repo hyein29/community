@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 	
 	$("#checkAll").change(function(){
 		var chk = $(this).prop("checked");
@@ -33,7 +33,6 @@ $(document).ready(function(){
 				url: "/admin/member",
 				type: "DELETE",
 				data: data,
-				dataType: "json",
 				success: function(result){
 					
 					if(result == "success"){
@@ -56,4 +55,4 @@ $(document).ready(function(){
 	
 
 
-});
+});*/
