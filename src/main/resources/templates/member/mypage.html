@@ -19,6 +19,12 @@
 				<button>수정</button>
 			</form>
 		</div>
+		<div>
+			<form action="/member/mypage" method="post" onsubmit="return false;" class="unregForm">
+				<input type="hidden" name="_method" value="delete">
+				<button class="unregBtn">탈퇴</button>
+			</form>
+		</div>
 	</div>
 	
 	
@@ -28,6 +34,23 @@
 
 <script>
 
+$(function(){
+	
+	$(".unregBtn").on("click", function(){
+		
+		if (confirm("정말 탈퇴하시겠습니까?")) {
+	        alert("탈퇴 처리가 완료되었습니다.");
+	        $(".unregForm").attr("onsubmit", "return true;");
+	        $(".unregForm").submit();
+	    } else {
+	        alert("취소되었습니다.");
+	    }
+		
+	});
+	
+	
+	
+});
 
 
 </script>

@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,6 +71,15 @@ public class MemberController {
 	public String modify(Member member) {
 		memberService.update(member);
 		return "redirect:/member/mypage/modify";
+	}
+	
+	// 회원 탈퇴
+	@DeleteMapping("/mypage")
+	public String unregister(Principal principal) {
+		String username = principal.getName();
+		memberService.unregister(username);
+		SecurityContextHolder.clearContext(); // 로그아웃 처리
+		return "redirect:/";
 	}
 
 }
