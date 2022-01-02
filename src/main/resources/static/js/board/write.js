@@ -54,7 +54,35 @@
 
     //저장버튼 클릭
     $(document).on('click', '#saveBtn', function () {
-        saveContent();
+		var category = $(".category").val();
+		var bDivide = $(".bDivide").val();
+		var bTitle = $(".bTitle").val();
+		
+		
+		if(category == ""){
+			alert("카테고리를 선택해주세요");
+			$(".category").focus();
+			return;
+		}
+		
+		if(bDivide == ""){
+			alert("분류를 선택해주세요");
+			$(".bDivide").focus();
+			return;
+		}
+		
+		if(bTitle == ""){
+			alert("제목을 입력해주세요");
+			$(".bTitle").focus();
+			return;
+		}
+
+		if(confirm("게시물을 등록하시겠습니까?")){
+			saveContent();
+		}else{
+			return;
+		}
+        
     });
 
 

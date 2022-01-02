@@ -28,12 +28,12 @@
 	<input type="text" name="member.username" class="board_input" th:value="${content.member.username}"><br>
  	<input type="text" name="bViewcnt" class="board_input" th:value="${content.bViewcnt}"><br>
 	
-	<select name="bDivide" class="board_input">
+	<select name="bDivide" class="board_input bDivide">
 		<option value="">--------------</option>
 		<option th:selected="${content.bDivide}=='자랑합니다'">자랑합니다</option>
 		<option th:selected="${content.bDivide}=='궁금해요'">궁금해요</option>
 	</select>
-	<input type="text" name="bTitle" placeholder="제목" class="board_input" th:value="${content.bTitle}"><br>
+	<input type="text" name="bTitle" placeholder="제목" class="board_input bTitle" th:value="${content.bTitle}"><br>
 	
 	<div class="content_ared">
 		<input type="hidden" name="content" id="content" th:value="${content.bContent}">

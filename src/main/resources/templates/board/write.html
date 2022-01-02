@@ -40,15 +40,16 @@
 	
 	
 	
-	<select name="category.cNo" class="board_input">
+	<select name="category.cNo" class="board_input category">
+		<option value="">카테고리</option>
 		<option th:each="cate:${categories}" th:value="${cate.cNo}" th:text="${cate.cName}">카테고리</option>
 	</select>
-	<select name="bDivide" class="board_input">
+	<select name="bDivide" class="board_input bDivide">
 		<option value="">--------------</option>
 		<option>자랑합니다</option>
 		<option>궁금해요</option>
 	</select><br>
-	<input type="text" name="bTitle" placeholder="제목" class="board_input"><br>
+	<input type="text" name="bTitle" placeholder="제목" class="board_input bTitle"><br>
 	<div id="summernote" name="bContent"></div>
 	
 	<button type="submit" id="saveBtn">작성하기</button>

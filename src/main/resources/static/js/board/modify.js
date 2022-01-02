@@ -49,7 +49,27 @@ function uploadSummernoteImageFile(file, editor) {
 
 // 저장버튼 클릭
 $(document).on('click', '#saveBtn', function () {
-    saveContent();
+	var bDivide = $(".bDivide").val();
+	var bTitle = $(".bTitle").val();
+
+	if(bDivide == ""){
+		alert("분류를 선택해주세요");
+		$(".bDivide").focus();
+		return;
+	}
+	
+	if(bTitle == ""){
+		alert("제목을 입력해주세요");
+		$(".bTitle").focus();
+		return;
+	}
+	
+	if(confirm("게시물을 수정하시겠습니까?")){
+		saveContent();
+	}else{
+		return;
+	}
+	
 });
 
 var board = new Object();
