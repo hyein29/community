@@ -10,6 +10,10 @@
 
 </head>
 <body>
+	
+	<!-- 로그인 여부 판단을 위한 input -->
+	<input type="hidden" th:value="${#authentication.name}" class="securityName">
+	
 	<h1>view content</h1>
 		
 	<a href="#">[[${content.category.cName}]]</a> > <a href="#">[[${content.bDivide}]]</a> <br>
@@ -29,7 +33,7 @@
 		<div id="content2"></div>
 	</div>
 	
-	
+
 	
 	<a href="/board/modify/" th:attrappend="href=${content.bNo}" id="modify_btn" 
 		th:if="${content.member.username == #authentication.name}">수정</a>
@@ -106,6 +110,7 @@
 <script>
 	
 	let bNo = $("#bNo").val();
+	let securityName = $(".securityName").val();
 
     $(function(){
         var content1 = $("#content1").val();
@@ -146,6 +151,12 @@
     	
     	//좋아요 버튼 클릭 시
     	$(document).on("click", ".likeBtn", function(){
+    		
+    		if(securityName == "anonymousUser"){
+    			alert("로그인이 필요한 기능입니다.");
+    			return;
+    		}
+    		
     		var data = {
     				bNo : bNo
     		}
