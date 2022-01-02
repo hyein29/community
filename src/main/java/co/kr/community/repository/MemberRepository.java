@@ -33,7 +33,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	@Query(value = "update member set unreg_date = null, enabled = 1 where username = :username", nativeQuery = true)
 	void accountRecovery(String username);
 
-	
+	// 관리자 목록 조회
 	@Query(value = "select *\r\n"
 			+ "  from member m join (select username, count(role_no) as cnt\r\n"
 			+ "					   from member_role\r\n"
@@ -43,7 +43,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	List<Member> getOnlyAdminList();
 	
 	
-	
+	// 일반 회원 목록 조회
 	@Query(value = "select *\r\n"
 			+ "  from member m join (select username, count(role_no) as cnt\r\n"
 			+ "					   from member_role\r\n"

@@ -37,34 +37,71 @@ public class BoardServiceImpl implements BoardService {
 		return boardRepository.findAll();
 	}
 	
+//	@Override
+//	public Page<Board> getBoardList(Pageable pageable) {
+//		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+//		pageable = PageRequest.of(page, 10, Sort.by("bNo").descending());
+//		return boardRepository.findAll(pageable);
+//	}
+	
+	// 전체 게시판 조회
 	@Override
-	public Page<Board> getBoardList(Pageable pageable) {
+	public Page<Board> getTotalBoardList(Pageable pageable) {
 		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
 		pageable = PageRequest.of(page, 10, Sort.by("bNo").descending());
 		return boardRepository.findAll(pageable);
 	}
 	
+	// 인기 게시판 조회
+	@Override
+	public Page<Board> getHotBoardList(Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 10, Sort.by("b_no").descending());
+		return boardRepository.getHotBoardList(pageable);
+	}
+	
+	// 강아지 게시판 조회
+	@Override
+	public Page<Board> getDogBoardList(Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 10, Sort.by("b_no").descending());
+		return boardRepository.getDogBoardList(pageable);
+	}
+	
+	// 고양이 게시판 조회
+	@Override
+	public Page<Board> getCatBoardList(Pageable pageable) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 10, Sort.by("b_no").descending());
+		return boardRepository.getCatBoardList(pageable);
+	}
+	
+	// 조회수 업데이트
 	@Override
 	public void updateViewCnt(Long bNo) {
 		boardRepository.updateViewCnt(bNo);		
 	}	
 
+	// 게시물 조회
 	@Override
 	public Optional<Board> getBoardContent(Long bNo) {
 		return boardRepository.findById(bNo);
 	}
 
+	// 게시물 수정
 	@Override
 	public String update(Board board) {
 		boardRepository.save(board);
 		return "success";
 	}
 
+	// 게시물 삭제
 	@Override
 	public void delete(Long bNo) {
 		boardRepository.deleteById(bNo);
 	}
 
+	// 좋아요 여부 체크
 	@Override
 	public String likesCheck(Long bNo, Principal principal) {
 		
@@ -84,6 +121,7 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 	
+	// 좋아요 수 조회
 	@Override
 	public String likesCntCheck(Long bNo) {
 		
@@ -96,6 +134,7 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	// 좋아요 설정
 	@Override
 	public String insertLike(Long bNo, Principal principal) {
 		
@@ -105,6 +144,8 @@ public class BoardServiceImpl implements BoardService {
 		return "success";
 	}
 
+	
+	// 좋아요 해제
 	@Override
 	public String deleteLike(Long bNo, Principal principal) {
 		

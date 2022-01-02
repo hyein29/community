@@ -18,7 +18,14 @@ public interface BoardService {
 	List<Board> getBoardList();
 	
 	// 게시물 목록 조회(페이징)
-	Page<Board> getBoardList(Pageable pageable);
+//	Page<Board> getBoardList(Pageable pageable);
+	
+	// 게시판 조회
+	Page<Board> getTotalBoardList(Pageable pageable); // 전체 게시판
+	Page<Board> getHotBoardList(Pageable pageable); // 인기 게시판
+	Page<Board> getDogBoardList(Pageable pageable); // 강아지 게시판
+	Page<Board> getCatBoardList(Pageable pageable); // 고양이 게시판
+	
 	
 	// 조회수 업데이트
 	void updateViewCnt(Long bNo);

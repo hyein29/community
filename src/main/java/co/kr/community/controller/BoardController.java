@@ -48,11 +48,59 @@ public class BoardController {
 //		return mv;
 //	}
 	
-	// 게시판 조회(페이징)
+	// 전체 게시판 조회(페이징)
 	@GetMapping(value = "/board")
-	public ModelAndView list(@PageableDefault Pageable pageable) {
-		ModelAndView mv = new ModelAndView("board/list");
-		Page<Board> boards = boardService.getBoardList(pageable);
+	public ModelAndView totalBoardList(@PageableDefault Pageable pageable) {
+		ModelAndView mv = new ModelAndView("board/boardTotal");
+		Page<Board> boards = boardService.getTotalBoardList(pageable);
+		mv.addObject("boards", boards);
+		return mv;
+	}
+	
+//	@GetMapping(value = "/board/{boardName}")
+//	public ModelAndView totalBoardList(@PathVariable("boardName") String boardName, @PageableDefault Pageable pageable) {
+//		
+//		String url = "board/";
+//		
+//		if(boardName == "total") {
+//			url += "boardTotal";
+//		}else if(boardName == "hot") {
+//			url += "boardHot";
+//		}else if(boardName == "cat") {
+//			url += "boardCat";
+//		}else if(boardName == "dog") {
+//			url += "boardDog";
+//		}
+//		
+//		ModelAndView mv = new ModelAndView(url);
+//		Page<Board> boards = boardService.getBoardList(pageable);
+//		mv.addObject("boards", boards);
+//		return mv;
+//	}
+	
+	// 인기 게시판 조회(페이징)
+	@GetMapping(value = "/board/hot")
+	public ModelAndView hotBoardList(@PageableDefault Pageable pageable) {
+		ModelAndView mv = new ModelAndView("board/boardHot");
+		Page<Board> boards = boardService.getHotBoardList(pageable);
+		mv.addObject("boards", boards);
+		return mv;
+	}
+		
+	// 강아지 게시판 조회(페이징)
+	@GetMapping(value = "/board/dog")
+	public ModelAndView dogBoardList(@PageableDefault Pageable pageable) {
+		ModelAndView mv = new ModelAndView("board/boardDog");
+		Page<Board> boards = boardService.getDogBoardList(pageable);
+		mv.addObject("boards", boards);
+		return mv;
+	}
+
+	// 고양이 게시판 조회(페이징)
+	@GetMapping(value = "/board/cat")
+	public ModelAndView catBoardList(@PageableDefault Pageable pageable) {
+		ModelAndView mv = new ModelAndView("board/boardCat");
+		Page<Board> boards = boardService.getCatBoardList(pageable);
 		mv.addObject("boards", boards);
 		return mv;
 	}
