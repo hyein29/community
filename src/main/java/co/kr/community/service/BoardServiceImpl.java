@@ -68,13 +68,19 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String likesCheck(Long bNo, Principal principal) {
 		
-		String username = principal.getName();
-		
-		if(boardRepository.likesCheck(bNo, username) == 1) {
-			return "true";
-		}else {
+		if(principal == null) { // 비회원인 경우 빈하트 출력
 			return "false";
+		}else {
+			String username = principal.getName();
+			
+			if(boardRepository.likesCheck(bNo, username) == 1) {
+				return "true";
+			}else {
+				return "false";
+			}
 		}
+		
+		
 		
 	}
 	
