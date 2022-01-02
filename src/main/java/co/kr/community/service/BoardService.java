@@ -28,7 +28,7 @@ public interface BoardService {
 	
 	// 검색 기능
 	Page<Board> getTotalBoardSearchList(Pageable pageable, 
-			String boardName, String searchOpt, String searchVal);
+			String boardName, String type, String keyword);
 	
 	// 조회수 업데이트
 	void updateViewCnt(Long bNo);

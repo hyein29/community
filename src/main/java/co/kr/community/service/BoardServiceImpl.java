@@ -78,15 +78,25 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 검색 기능
 	@Override
-	public Page<Board> getTotalBoardSearchList(Pageable pageable, String boardName, String searchOpt, String searchVal) {
+	public Page<Board> getTotalBoardSearchList(Pageable pageable, String boardName, String type, String keyword) {
 		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
 		pageable = PageRequest.of(page, 10, Sort.by("b_no").descending());
 		
+		System.out.println("boardname=======@@@@"+boardName);
+	
+		
 		if(boardName == "total") {
-			return boardRepository.findByBTitleContaining(searchVal, pageable);
+			
+			if(type == "title") {
+				return boardRepository.searchTotalTitle(pageable, keyword);
+			}else {
+				return boardRepository.searchTotalContent(pageable, keyword);
+			}
+//			return boardRepository.findByBTitleContains(keyword, pageable);
 		}else {
 
-			return boardRepository.findByBTitleContaining(searchVal, pageable);
+			return boardRepository.searchTotalTitle(pageable, keyword);
+//			return boardRepository.findByBTitleContains(keyword, pageable);
 			
 		}
 		

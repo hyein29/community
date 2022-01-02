@@ -109,14 +109,14 @@ public class BoardController {
 	// 검색 기능
 	@GetMapping(value = "/board/search")
 	public ModelAndView searchBoardList(@PageableDefault Pageable pageable,
-		@RequestParam String boardName, @RequestParam String searchOpt, @RequestParam String searchVal) {
+		@RequestParam String boardName, @RequestParam String type, @RequestParam String keyword) {
 		
 		System.out.println("boardName====>" +boardName);
-		System.out.println("searchOpt====>" +searchOpt);
-		System.out.println("searchVal====>" +searchVal);
+		System.out.println("type====>" +type);
+		System.out.println("keyword====>" +keyword);
 		
 		ModelAndView mv = new ModelAndView("board/boardTotalSearch");
-		Page<Board> boards = boardService.getTotalBoardSearchList(pageable, boardName, searchOpt, searchVal);
+		Page<Board> boards = boardService.getTotalBoardSearchList(pageable, boardName, type, keyword);
 		
 		System.out.println(boards.getNumberOfElements());
 		
