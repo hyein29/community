@@ -2,6 +2,7 @@ package co.kr.community.service;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -63,16 +64,34 @@ public class MemberServiceImpl implements MemberService {
 
 	// 회원 탈퇴
 	@Override
-	public void delete(String username) {
-		memberRepository.deleteById(username);
+	public void unregister(String username) {
+		memberRepository.unregister(username);
 	}
 	
 	// 회원 목록 조회(페이징)
+//	@Override
+//	public Page<Member> getMemberList(Pageable pageable) {
+//		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+//		pageable = PageRequest.of(page, 10, Sort.by("regDate"));
+//		return memberRepository.findAll(pageable);
+//	}
+	
+	// 회원 목록 조회 (전체)
 	@Override
-	public Page<Member> getMemberList(Pageable pageable) {
-		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-		pageable = PageRequest.of(page, 10, Sort.by("regDate"));
-		return memberRepository.findAll(pageable);
+	public List<Member> getMemberList() {
+		return memberRepository.findAll();
+	}
+	
+	// 회원 목록 조회 (관리자만)
+	@Override
+	public List<Member> getOnlyAdminList() {
+		return memberRepository.getOnlyAdminList();
+	}
+	
+	// 회원 목록 조회 (일반회원만)
+	@Override
+	public List<Member> getOnlyMemberList() {
+		return memberRepository.getOnlyMemberList();
 	}
 	
 	
@@ -177,6 +196,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
+	// 계정 복구
+	@Override
+	public void accountRecovery(String username) {
+		
+		memberRepository.accountRecovery(username);
+		
+	}
+
+	// 권한 변경
+	@Override
+	public void modifyAuthority(String username) {
+		
+		if(memberRepository.checkRoleAdmin(username) < 1) { // 관리자 권한이 없는 경우
+			memberRepository.setRoleAdmin(username); // 관리자 권한 설정
+		}else { // 이미 관리자인 경우
+			memberRepository.revokeRoleAdmin(username); // 관리자 권한 해제
+		}
+				
+	}
 	
 
 	

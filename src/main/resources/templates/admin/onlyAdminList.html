@@ -15,22 +15,22 @@
 		<div></div>
 		
 		<div>
-			<!-- <form class="selectForm" method="get">
+			<!-- <form action="#" class="selectForm">
 				<select name="selectedOpt" class="selectedOpt">
-					<option value="" selected="selected">전체</option>
-					<option value="onlyAdmin">관리자</option>
-					<option value="onlyMember">일반회원</option>
+					<option value="all">전체</option>
+					<option value="admin" selected="selected">관리자</option>
+					<option value="member">일반회원</option>
 				</select>
 			</form> -->
 			
 			<select name="selectedOpt" class="selectedOpt">
-					<option value="" selected="selected">전체</option>
-					<option value="onlyAdmin">관리자</option>
-					<option value="onlyMember">일반회원</option>
+				<option value="">전체</option>
+				<option value="onlyAdmin" selected="selected">관리자</option>
+				<option value="onlyMember">일반회원</option>
 			</select>
 		</div>
 		
-	
+		
 	</div>
 
 	
@@ -49,7 +49,7 @@
 			<td></td>
 		</tr>
 		
-		<tr th:each="member, i : ${members}" class="allList">
+		<tr th:each="member, i : ${members}" class="adminList">
 			<!-- 아이디가 admin이거나 관리자 권한을 가지고 있거나 계정이 비활성화인 경우 체크 비허용 -->
 			<td th:if="${member.username == 'admin' || member.username == #authentication.name || member.enabled == false}" th:id="${member.username}">
 				<input type="checkbox" disabled="disabled">
@@ -91,6 +91,7 @@
 <script>
 $(document).ready(function(){
 	
+	
 	// 조회 (전체/관리자/일반회원)
 	$(".selectedOpt").on("change", function(){
 		
@@ -102,17 +103,8 @@ $(document).ready(function(){
 		}
 		
 		location.href = url;
-		
+             
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -205,13 +197,9 @@ $(document).ready(function(){
 		e.preventDefault();
 		var cnt = $(".chkBox:checked").length;
 		var arr = new Array();
-		var auth = "";
-		
-		
 		
 		$(".chkBox:checked").each(function(){
 			arr.push($(this).closest("td").attr("id"));
-			auth = $(this).closest("td").attr("data-auth");
 		});
 		
 		if(cnt == 0){
@@ -221,8 +209,12 @@ $(document).ready(function(){
 			var data = {
 				arr : arr
 			}
-			alert(auth);
-			alert(arr + "을 삭제하시겠습니까?");
+			
+			if(confirm(arr + "의 관리자 권한을 해제하시겠습니까?")){
+				modifyAuthAjax(data);
+			}else{
+				return;
+			}
 
 		}
 	
@@ -252,7 +244,24 @@ $(document).ready(function(){
     
     
     function modifyAuthAjax(data) {
-    	alert(data.size());
+    	$.ajax({
+			url: "/admin/member",
+			type: "PATCH",
+			data: data,
+			success: function(result){
+				
+				if(result == "success"){
+					alert("권한 변경 성공");
+					location.href="/admin/member/onlyAdmin";
+				}else{
+					alert("권한 변경 실패");
+				}
+			},
+			error: function(request) {
+				alert("에러");
+				alert("code:" + request.status);
+			}
+		});
     }
     
     function recoverAjax(data) {

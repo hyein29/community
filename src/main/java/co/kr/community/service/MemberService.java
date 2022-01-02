@@ -1,5 +1,6 @@
 package co.kr.community.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -20,11 +21,23 @@ public interface MemberService {
 	Member update(Member member);
 	
 	// 회원 탈퇴
-	void delete(String username);
+	void unregister(String username);
+	
 
 	/* 관리자 페이지 */	
 	// 회원 목록 조회
-	Page<Member> getMemberList(Pageable pageable);
+//	Page<Member> getMemberList(Pageable pageable);	// 전체 (페이징)
+	
+	List<Member> getMemberList();	// 전체
+	List<Member> getOnlyAdminList();	// 관리자만
+	List<Member> getOnlyMemberList();	// 일반회원만
+	
+	
+	
+	// 계정 복구
+	void accountRecovery(String username);
+	
+	void modifyAuthority(String username);
 
 
 	/* 회원 가입 시 */
