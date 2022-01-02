@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -104,6 +105,28 @@ public class BoardController {
 		mv.addObject("boards", boards);
 		return mv;
 	}
+	
+	// 검색 기능
+	@GetMapping(value = "/board/search")
+	public ModelAndView searchBoardList(@PageableDefault Pageable pageable,
+		@RequestParam String boardName, @RequestParam String searchOpt, @RequestParam String searchVal) {
+		
+		System.out.println("boardName====>" +boardName);
+		System.out.println("searchOpt====>" +searchOpt);
+		System.out.println("searchVal====>" +searchVal);
+		
+		ModelAndView mv = new ModelAndView("board/boardTotalSearch");
+		Page<Board> boards = boardService.getTotalBoardSearchList(pageable, boardName, searchOpt, searchVal);
+		
+		System.out.println(boards.getNumberOfElements());
+		
+		
+		mv.addObject("boards", boards);
+		return mv;
+	}
+	
+	
+	
 
 	// 게시물 작성 페이지
 	@GetMapping(value = "/board/write")

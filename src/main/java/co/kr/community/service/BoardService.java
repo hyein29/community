@@ -26,6 +26,9 @@ public interface BoardService {
 	Page<Board> getDogBoardList(Pageable pageable); // 강아지 게시판
 	Page<Board> getCatBoardList(Pageable pageable); // 고양이 게시판
 	
+	// 검색 기능
+	Page<Board> getTotalBoardSearchList(Pageable pageable, 
+			String boardName, String searchOpt, String searchVal);
 	
 	// 조회수 업데이트
 	void updateViewCnt(Long bNo);

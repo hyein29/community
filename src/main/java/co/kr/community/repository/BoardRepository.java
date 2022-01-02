@@ -64,4 +64,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	@Query(value = "select * from board where c_no = 1", countQuery = "select * from board where c_no = 1", nativeQuery = true)
 	Page<Board> getCatBoardList(Pageable pageable);
 
+	// 전체 게시판 검색
+	@Query(value = "select * from board where :searchOpt like '%:searchVal%'", countQuery = "select * from board where :searchOpt = :searchVal", nativeQuery = true)
+	Page<Board> search(Pageable pageable, String searchOpt, String searchVal);
+	
+	Page<Board> findByBTitleContaining(String searchVal, Pageable pageable);
+	
 }

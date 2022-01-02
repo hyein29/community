@@ -76,6 +76,24 @@ public class BoardServiceImpl implements BoardService {
 		return boardRepository.getCatBoardList(pageable);
 	}
 	
+	// 검색 기능
+	@Override
+	public Page<Board> getTotalBoardSearchList(Pageable pageable, String boardName, String searchOpt, String searchVal) {
+		int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+		pageable = PageRequest.of(page, 10, Sort.by("b_no").descending());
+		
+		if(boardName == "total") {
+			return boardRepository.findByBTitleContaining(searchVal, pageable);
+		}else {
+
+			return boardRepository.findByBTitleContaining(searchVal, pageable);
+			
+		}
+		
+	}
+	
+	
+	
 	// 조회수 업데이트
 	@Override
 	public void updateViewCnt(Long bNo) {
